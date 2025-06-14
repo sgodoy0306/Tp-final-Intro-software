@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Experience</title>
+    <link rel="stylesheet" href="/assets/output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+
+</head>
+<body class="bg-[#131212]">
+    <div id="" class="fixed inset-0 w-full h-full z-50 pointer-events-none">
+        <img src="./assets/images/bezel.png" alt="" class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none">
+    </div>
+    <header id="main-container" class="bg-[#131212] w-full h-[50vh] flex-row justify-center items-start">
+        <div id="start-section" class="flex flex-col justify-center items-center min-h-full bg-[#131212] transition-opacity duration-700 opacity-100">
+            <div id="logo-section" class="flex flex-col bg-inherit items-center transition-opacity duration-700 pointer-events-none">
+                <img src="./assets/images/logo.png" alt="" class="w-[28rem] h-auto mb-8 pointer-events-none">
+            </div>
+            <h2>
+                <span class="text-4xl flex font-pixel items-center justify-center font-extrabold bg-gradient-to-b from-orange-500 to-yellow-300 bg-clip-text text-transparent blink-animation">
+                    SCROLL TO CONTINUE
+                </span>
+            </h2>
+        </div>
+    </header>
+    <section id="welcome-section" class="flex items-center justify-center bg-[#131212] transition-opacity duration-700 opacity-0 translate-y-[-2rem] pointer-events-none  top-24 left-0 w-full z-40">
+        <div>
+            <h1 class="text-6xl font-extrabold text-green-600 drop-shadow-lg text-center font-pixel tracking-widest bg-[#131212]">
+                Bienvenido a 
+                <span class="relative inline-block text-yellow-400 animate-pulse font-pixel gold-shine bg-[#131212]">
+                    LA EPOCA DORADA
+                </span>
+            </h1>
+            <h3 class="text-2xl font-semibold text-orange-300 mt-32 mb-4  font-pixel drop-shadow-sm flex items-center justify-center max-w-3xl mx-32 text-left">
+                Esta experiencia te sumergirá en el catálogo de lo que muchos consideran la mejor época del gaming. Aquí encontrarás juegos que marcaron el inicio de incontables horas de entretenimiento y momentos inolvidables para la mayoría de los gamers. 
+            </h3>
+        </div>
+    </section>
+    <section class="w-full h-screen flex items-center justify-center bg-[#131212]">
+        <div id="catalog-container" class="flex relative flex-col justify-center items-center p-20 py-10 -top-20 rounded-3xl border-4 border-white/20 shadow-2xl bg-[#181616]/80 backdrop-blur-md">
+            <div id="platforms-buttons" class="flex flex-row flex-1 w-full justify-center items-end space-x-4 mb-0 h-auto">
+                <a class="flex-1 w-64 h-32 bg-black rounded-md flex items-center justify-center shadow-lg opacity-0 -translate-x-16 transition-all duration-250 delay-0 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+                    <img src="./assets/images/xboxLogo.png" alt="" class="object-contain h-16">
+                </a>
+                <a class="flex-1 w-64 h-32 bg-black rounded-md flex items-center justify-center shadow-lg opacity-0 -translate-x-16 transition-all duration-250 delay-150 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+                    <img src="./assets/images/gameCubeLogo.png" alt="" class="object-contain h-full">
+                </a>
+                <a class="flex-1 w-64 h-32 bg-black rounded-md flex items-center justify-center shadow-lg opacity-0 -translate-x-16 transition-all duration-250 delay-300 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+                    <img src="./assets/images/playStationLogo.png" alt="" class="object-fill h-full">
+                </a>
+                <a class="flex-1 w-64 h-32 bg-black rounded-md flex items-center justify-center shadow-lg opacity-0 -translate-x-16 transition-all duration-250 delay-500 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+                    <img src="./assets/images/pcLogo.png" alt="" class="object-fill h-full">
+                </a>
+            </div>
+            <div id="catalog-button" class="catalog-button flex flex-1 w-full items-start justify-center mt-2 h-12 opacity-0 translate-y-8 transition-all duration-250">
+                <a class="flex items-center justify-center mt-10 w-full h-32 bg-gradient-to-r from-black via-neutral-800 to-black rounded-xl shadow-lg overflow-hidden group transition-transform duration-300 hover:scale-105">
+                    <span class="z-10 text-2xl font-serif font-bold text-white tracking-widest drop-shadow-lg select-none">
+                        CATÁLOGO
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <div id="static-effect" class="fixed inset-0 w-full h-full pointer-events-none" style="background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover repeat; opacity: 0.01; mix-blend-mode: lighten;"></div>
+    <script src="./assets/script.js"></script>
+
+</body>
+</html>
