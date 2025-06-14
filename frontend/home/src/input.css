@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+@layer utilities {
+    .font-pixel {
+        font-family: 'Pixelify Sans', sans-serif;
+    }
+    .gold-shine {
+        background: linear-gradient(90deg, #FFD700 20%, #FFFACD 40%, #FFD700 60%);
+        background-size: 200% auto;
+        color: #FFD700;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 2s linear infinite;
+        display: inline-block;
+    }
+
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+.blink-animation {
+    animation: blink 1s infinite;
+}
