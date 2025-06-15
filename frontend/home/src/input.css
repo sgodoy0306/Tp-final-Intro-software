@@ -18,6 +18,16 @@
         display: inline-block;
     }
 
+    .diagonal-genre {
+        opacity: 0;
+        transform: translateY(60px) translateX(-60px) scale(0.8) rotate(-8deg);
+        transition: all 0.7s cubic-bezier(.4,2,.3,1);
+        will-change: transform, opacity;
+        }
+    .diagonal-genre.visible {
+        opacity: 1;
+        transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+    }
 }
 
 @keyframes shine {

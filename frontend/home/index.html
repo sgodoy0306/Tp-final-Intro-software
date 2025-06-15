@@ -13,16 +13,16 @@
         <img src="./assets/images/bezel.png" alt="" class="absolute inset-0 w-full h-full object-cover lg:object-fill md:object-fill sm:object-cover  object-center pointer-events-none">
     </div>
     <header id="main-container" class="bg-[#131212] w-full h-[50vh] flex-row justify-center items-start">
-        <div id="start-section" class="flex mx-auto flex-col justify-center w-full items-center min-h-full bg-[#131212] transition-opacity duration-700 opacity-100">
+        <section id="start-section" class="flex mx-auto flex-col justify-center w-full items-center min-h-full bg-[#131212] transition-opacity duration-700 opacity-100">
             <div id="logo-section" class="flex  flex-col bg-inherit items-center transition-opacity duration-700 pointer-events-none">
-                <img src="./assets/images/logo.png" alt="" class="w-[28rem] h-auto mb-8 pointer-events-none">
+                <img src="./assets/images/logo.png" alt="" class="w-[28rem] h-auto mb-8 pointer-events-none select-none" draggable="false">
             </div>
             <h2>
-                <span class="text-4xl flex font-pixel items-center justify-center font-extrabold bg-gradient-to-b from-orange-500 to-yellow-300 bg-clip-text text-transparent blink-animation">
+                <span class="text-4xl flex font-pixel items-center justify-center font-extrabold bg-gradient-to-b from-orange-500 to-yellow-300 bg-clip-text text-transparent blink-animation select-none" >
                     SCROLL TO CONTINUE
                 </span>
             </h2>
-        </div>
+        </section>
     </header>
     <section id="welcome-section" class="flex items-center justify-center bg-[#131212] transition-opacity duration-700 opacity-0 translate-y-[-2rem] pointer-events-none  top-24 left-0 w-full z-40">
         <div>
@@ -37,27 +37,32 @@
             </h3>
         </div>
     </section>
-    <section class="w-full h-screen flex items-center justify-center bg-[#131212]">
+    <section id="catalog" class="w-full h-screen flex items-center justify-center bg-[#131212]">
         <div id="catalog-container" class="flex relative flex-wrap w-3/4 flex-col justify-center items-center mx-auto p-12 py-10  rounded-3xl border-4 border-white/20 shadow-2xl bg-[#181612]/80 backdrop-blur-md">
             <div id="platforms-buttons" class="flex flex-wrap flex-1 w-full justify-center items-end gap-4 mb-0 h-auto">
-                <a href="./index.html" class="flex-1 min-w-36 max-w-xs w-full h-24 sm:h-32 bg-black rounded-xl flex items-center justify-center shadow-lg opacity-0 -translate-x-16 transition-all duration-250 delay-0 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+                <a id="xbox-button" href="./index.html" class="flex-1 min-w-36 max-w-xs w-full h-24 sm:h-32 bg-black rounded-xl flex items-center justify-center shadow-[0_4px_0_0_#444,0_8px_0_0_#000] border-2 border-gray-400 hover:border-green-400 active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none relative overflow-hidden opacity-0 -translate-x-16  delay-0 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+<span class="absolute inset-0 pointer-events-none border-b-4 border-green-400 opacity-20 rounded-b-xl"></span>
                     <img src="./assets/images/xboxLogo.png" alt="" class="object-contain h-12 sm:h-16">
                 </a>
-                <a href="./index.html" class="flex-1 min-w-36 max-w-xs w-full h-24 sm:h-32 bg-black rounded-xl flex items-center justify-center shadow-lg opacity-0 -translate-x-16 transition-all duration-250 delay-150 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+                <a id="gamecube-button" href="./index.html" class="flex-1 min-w-36 max-w-xs w-full h-24 sm:h-32 bg-black rounded-xl flex items-center justify-center shadow-[0_4px_0_0_#444,0_8px_0_0_#000] border-2 border-gray-400 hover:border-blue-400 active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none relative overflow-hidden opacity-0 -translate-x-16 delay-150 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+<span class="absolute inset-0 pointer-events-none border-b-4 border-blue-400 opacity-20 rounded-b-xl"></span>
                     <img src="./assets/images/gameCubeLogo.png" alt="" class="object-contain h-16 sm:h-20">
                 </a>
-                <a href="./index.html" class="flex-1 min-w-36 max-w-xs w-full h-24 sm:h-32 bg-black rounded-xl flex items-center justify-center shadow-lg opacity-0 -translate-x-16 transition-all duration-250 delay-300 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
-                    <img src="./assets/images/playStationLogo.png" alt="" class="object-fill h-16 sm:h-20">
+                <a id="playstation-button" href="./index.html" class="flex-1 min-w-36 max-w-xs w-full h-24 sm:h-32 bg-black rounded-xl flex items-center justify-center shadow-[0_4px_0_0_#444,0_8px_0_0_#000] border-2 border-red-400 hover:border-red-600 active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none relative overflow-hidden opacity-0 -translate-x-16 delay-300 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+<span class="absolute inset-0 pointer-events-none border-b-4 border-red-500 opacity-20 rounded-b-xl"></span>
+                    <img src="./assets/images/playStationLogo.png" alt="" class="object-contain h-16 sm:h-20">
                 </a>
-                <a href="./index.html" class="flex-1 min-w-36 max-w-xs w-full h-20 sm:h-32 bg-black rounded-xl flex items-center justify-center shadow-lg opacity-0 -translate-x-16 transition-all duration-250 delay-500 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
-                    <img src="./assets/images/pcLogo.png" alt="" class="object-fill h-10 sm:h-16">
+                <a id="pc-button" href="./index.html" class="flex-1 min-w-36 max-w-xs w-full h-24 sm:h-32 bg-black rounded-xl flex items-center justify-center shadow-[0_4px_0_0_#444,0_8px_0_0_#000] border-2 border-gray-200 hover:border-white active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none relative overflow-hidden opacity-0 -translate-x-16 delay-500 catalog-item hover:flex-2 hover:delay-0 hover:duration-200">
+<span class="absolute inset-0 pointer-events-none border-b-4 border-white opacity-20 rounded-b-xl"></span>
+                    <img src="./assets/images/pcLogo.png" alt="" class="object-contain h-12 sm:h-16">
                 </a>
             </div>
-            <div id="catalog-button" class="catalog-button flex flex-1 w-full items-start justify-center mt-2 h-12 opacity-0 translate-y-8 transition-all duration-250">
-                <a class="flex items-center justify-center mt-8 w-full h-32 bg-gradient-to-r from-black via-neutral-800 to-black rounded-xl shadow-lg overflow-hidden group transition-transform duration-300 hover:scale-105">
-                    <span class="z-10 text-2xl font-serif font-bold text-white tracking-widest drop-shadow-lg select-none">
+            <div  class="catalog-button flex flex-1 w-full items-start justify-center mt-2 h-12 opacity-0 translate-y-8 transition-all duration-250">
+                <a id="catalog-button" class="flex items-center justify-center mt-8 w-full h-20 bg-black rounded-lg shadow-[0_4px_0_0_#222,0_8px_0_0_#000] border-2 border-gray-300 hover:border-yellow-400 active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none relative overflow-hidden">
+                    <span class="z-10 text-2xl font-pixel font-bold text-gray-100 tracking-widest drop-shadow-lg select-none px-8 py-2">
                         CATÁLOGO
                     </span>
+<span class="absolute inset-0 pointer-events-none border-b-4 border-yellow-400 opacity-30 rounded-b-lg"></span>
                 </a>
             </div>
         </div>
