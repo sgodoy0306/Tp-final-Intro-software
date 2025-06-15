@@ -88,3 +88,16 @@ if ('IntersectionObserver' in window && catalogSection) {
     animateCatalogItems();
 }
 });
+document.addEventListener("DOMContentLoaded", function() {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => {
+                    entry.target.classList.add('visible');
+                }, i * 90); // efecto escalonado
+            }
+        });
+    }, { threshold: 0.2 });
+
+document.querySelectorAll('.diagonal-genre').forEach(el => observer.observe(el));
+});
