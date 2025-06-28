@@ -1,4 +1,4 @@
-# Usar docker compose up para correr esto
+# Usar "docker compose up -d" para correr esto
 
 services:
   postgres:
@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password 
-      POSTGRES_DB: db_juegos
+      POSTGRES_DB: postgres
     ports:
       - "5432:5432"
     volumes:
