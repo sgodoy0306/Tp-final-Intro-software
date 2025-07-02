@@ -1,8 +1,7 @@
-const expres = require("express")
-const { getAllJuegos } = require("./scripts/catalogo")
+const express = require("express")
 
-const app = expres()
-app.use(expres.json())
+const app = express()
+app.use(express.json())
 
 const PORT = process.env.PORT || 3000
 
@@ -12,11 +11,6 @@ const {
   createJuego,
   deleteJuego
 } = require("./scripts/catalogo")
-
-const {
-  getOneJuego,
-} = require("./scripts/catalogo")
-
 
 // Health route
 app.get("/api/health", (req, res) => {
