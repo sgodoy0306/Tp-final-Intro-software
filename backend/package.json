@@ -2,9 +2,9 @@
   "name": "catalogo",
   "version": "1.0.0",
   "description": "Backend TP final Intro al Desarrollo de Software",
-  "main": "api.js",
+  "main": "src/api.js",
   "scripts": {
-    "dev": "nodemon api.js"
+    "dev": "nodemon src/api.js"
   },
   "author": "Breaking bash",
   "license": "ISC",
