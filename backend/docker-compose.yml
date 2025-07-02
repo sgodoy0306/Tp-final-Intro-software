@@ -1,4 +1,5 @@
-# Usar "docker compose up -d" para correr esto
+# "make start-db" (i.e. "docker compose up -d") para arrancar la db 
+# "make stop-db" (i.e. "docker compose down") para frenar la db
 
 services:
   postgres:
