@@ -3,19 +3,19 @@ const { Pool } = require('pg');
 const dbClient = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'catalogo',
-  password: 'postgres',
+  database: 'db_back',
+  password: 'password',
   port: 5432,
 });
 
 async function getAllJuegos() {
-  const result = await dbClient.query('SELECT * FROM juegos');
-  return result.rows;
+  const result = await dbClient.query('SELECT * FROM juegos')
+  return result.rows
 }
 
 async function getOneJuego(id) {
-  const result = await dbClient.query('SELECT * FROM juegos WHERE id= $1 LIMIT 1', [id]);
-  return result.rows[0];
+  const result = await dbClient.query('SELECT * FROM juegos WHERE id= $1 LIMIT 1', [id])
+  return result.rows[0]
 }
 
 async function createJuego(Nombre, Año, Desarrolladora, Genero, Consola) {
@@ -38,4 +38,5 @@ module.exports = {
   getOneJuego,
   createJuego,
   deleteJuego,
+  //updateJuego
 }; 

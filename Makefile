@@ -4,10 +4,10 @@
 .PHONY: start-db stop-db start-api run-backend
 
 start-db:
-	cd ./backend && docker-compose up -d
+	cd ./backend && docker compose up -d
 
 stop-db:
-	cd ./backend && docker-compose down
+	cd ./backend && docker compose down
 
 start-api: # para frenar usar CTRL + C 
 	cd ./backend && npm run dev 
