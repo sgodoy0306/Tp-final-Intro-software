@@ -63,3 +63,45 @@ app.post("/api/juegos/:id", async (req, res) => {
   }
   res.json(juego)
 })
+
+// Consolas
+
+app.get("/api/consolas", async (req, res) => {
+    const consolas = await getAllConsolas()
+    res.json(consolas)
+})
+
+app.get("/api/consolas/:id", async (req, res) => {
+    const consola = await getOneConsola(req.params.id)
+    if (!consola) {
+        return res.status(404).json({ error: "Consola no encontrada" })
+    }
+    res.json(consola)
+})
+
+app.post("/api/consolas", async (req, res) => {
+  if (!req.body.nombre || !req.body.formato) {
+    return res.status(400).json({ error: "Faltan datos para crear la consola" })
+  }
+  const nuevaConsola = await createConsola(req.body.nombre, req.body.año, req.body.compañia, req.body.formato, req.body.descripcion)
+  if (!nuevaConsola) {
+    return res.status(500).json({ error: "Error al crear la consola" })
+  }
+  res.json(nuevaConsola)
+})
+
+app.delete("/api/consolas/:id", async (req, res) => {
+  const consola = await deleteConsola(req.params.id)
+  if (!consola) {
+    return res.status(404).json({ error: "Consola no encontrada" })
+  }
+  res.json({ status: "OK", consolaEliminada: consola })
+})
+
+app.post("/api/consolas/:id", async (req, res) => {
+  const consola = await updateConsola(req.params.id, req.body.nombre, req.body.año, req.body.compañia, req.body.formato, req.body.descripcion)
+  if (!consola) {
+    return res.status(404).json({ error: "Consola no encontrada" })
+  }
+  res.json(consola)
+})
