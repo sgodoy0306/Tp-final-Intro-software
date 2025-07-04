@@ -27,6 +27,12 @@ CREATE TABLE Juegos (
     Consola INTEGER NOT NULL REFERENCES Consolas(Id) -- foreign key
 );
 
+CREATE TABLE Relacion (
+    juego_id INTEGER REFERENCES juegos (Id),
+    Consolas_id INTEGER REFERENCES Consolas (Id),
+    PRIMARY KEY (juego_id, Consolas_id)
+)
+
 -- inserts de ejemplo
 
 INSERT INTO Desarrolladoras (Nombre, Fundacion, "Pais de origen", Fundador, Descripcion)
