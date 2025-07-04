@@ -20,12 +20,18 @@ async function getOneJuego(id) {
 
 async function createJuego(Nombre, Año, Desarrolladora, Genero, Consola) {
     const result = await dbClient.query(
-        'INSERT INTO Juegos (Nombre, Año, Desarrolladora, Genero, Consola) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [Nombre, Año, Desarrolladora, Genero, Consola])
+        'INSERT INTO Juegos (Nombre, Año, Desarrolladora, Genero) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [Nombre, Año, Desarrolladora, Genero])
+      for (const consola of Consola) { 
+        await dbClient.query(
+          'INSERT INTO Relacion (juego_id, consola_id) VALUES ($1, $2)',
+          [result.rows[0].id, consola])
+      }
     return result.rows[0]
 }
 
 async function deleteJuego(id) {
+    await dbClient.query('DELETE FROM Relacion WHERE juego_id = $1', [id])
     const result = dbClient.query('DELETE FROM juegos WHERE id = $1 RETURNING *', [id])
     if ((await result).rowCount === 0) {
         return undefined
@@ -35,8 +41,11 @@ async function deleteJuego(id) {
 
 async function updateJuego(id, Nombre, Año, Desarrolladora, Genero, Consola) {
     const result = await dbClient.query(
-        'UPDATE Juegos SET Nombre = $1, Año = $2, Desarrolladora = $3, Genero = $4, Consola = $5 WHERE id = $6 RETURNING *',
-        [Nombre, Año, Desarrolladora, Genero, Consola, id])
+        'UPDATE Juegos SET Nombre = $2, Año = $3, Desarrolladora = $4, Genero = $5 WHERE id = $6 RETURNING *',
+        [id, Nombre, Año, Desarrolladora, Genero])
+    for (const consola of Consola) {
+      await dbClient.query('UPDATE Relacion SET consola_id = $2 WHERE juego_id = $1', [id, consola])
+    }
     if (result.rowCount === 0) {
         return undefined
     }
