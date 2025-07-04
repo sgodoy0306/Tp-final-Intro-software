@@ -9,7 +9,8 @@ const {
   getAllJuegos,
   getOneJuego,
   createJuego,
-  deleteJuego
+  deleteJuego,
+  updateJuego
 } = require("./scripts/catalogo")
 
 // Health route
@@ -50,7 +51,15 @@ app.post("/api/juegos", async (req, res) => {
 app.delete("/api/juegos/:id", async (req, res) => {
   const juego = await deleteJuego(req.params.id)
   if (!juego) {
-    return res.status(404).json({ error: "Personake id: " + id + " not found" })
+    return res.status(404).json({ error: "Juego id: " + id + " not found" })
   }
   res.json({ status: "OK", juegoEliminado: juego })
+})
+
+app.post("/api/juegos/:id", async (req, res) => {
+  const juego = await updateJuego(req.params.id, req.body.nombre, req.body.año, req.body.desarrolladora, req.body.genero, req.body.consola)
+  if (!juego) {
+    return res.status(404).json({ error: "Juego no encontrado" })
+  }
+  res.json(juego)
 })

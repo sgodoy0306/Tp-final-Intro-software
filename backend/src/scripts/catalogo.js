@@ -33,10 +33,20 @@ async function deleteJuego(id) {
     return result.rows[0]
 }
 
+async function updateJuego(id, Nombre, Año, Desarrolladora, Genero, Consola) {
+    const result = await dbClient.query(
+        'UPDATE Juegos SET Nombre = $1, Año = $2, Desarrolladora = $3, Genero = $4, Consola = $5 WHERE id = $6 RETURNING *',
+        [Nombre, Año, Desarrolladora, Genero, Consola, id])
+    if (result.rowCount === 0) {
+        return undefined
+    }
+    return result.rows[0]
+}
+
 module.exports = {
   getAllJuegos,
   getOneJuego,
   createJuego,
   deleteJuego,
-  //updateJuego
+  updateJuego
 }; 
