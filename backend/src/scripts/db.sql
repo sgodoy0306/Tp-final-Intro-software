@@ -24,7 +24,7 @@ CREATE TABLE Juegos (
     Año INTEGER,
     Desarrolladora INTEGER NOT NULL REFERENCES Desarrolladoras(Id), -- foreign key
     Genero VARCHAR(100),
-    Consolas INTEGER NOT NULL REFERENCES Consolas(Id) -- foreign key
+    Consola INTEGER NOT NULL REFERENCES Consolas(Id) -- foreign key
 );
 
 -- inserts de ejemplo
