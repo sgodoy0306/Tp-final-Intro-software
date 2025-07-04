@@ -41,7 +41,7 @@ app.post("/api/juegos", async (req, res) => {
   if (!req.body.nombre || !req.body.desarrolladora || !req.body.consola) {
     return res.status(400).json({ error: "Faltan datos para crear el juego" })
   }
-  const nuevoJuego = await createJuego(req.body.nombre, req.body.año, req.body.desarrolladora, req.body.genero, req.body.consola)
+  const nuevoJuego = await createJuego(req.body.nombre, req.body.año, req.body.desarrolladora, req.body.genero, req.body.ventas)
   if (!nuevoJuego) {
     return res.status(500).json({ error: "Error al crear el juego" })
   }
@@ -57,7 +57,7 @@ app.delete("/api/juegos/:id", async (req, res) => {
 })
 
 app.post("/api/juegos/:id", async (req, res) => {
-  const juego = await updateJuego(req.params.id, req.body.nombre, req.body.año, req.body.desarrolladora, req.body.genero, req.body.consola)
+  const juego = await updateJuego(req.params.id, req.body.nombre, req.body.año, req.body.desarrolladora, req.body.genero, req.body.ventas)
   if (!juego) {
     return res.status(404).json({ error: "Juego no encontrado" })
   }
