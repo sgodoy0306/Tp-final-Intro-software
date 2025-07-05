@@ -10,7 +10,12 @@ const {
   getOneJuego,
   createJuego,
   deleteJuego,
-  updateJuego
+  updateJuego,
+  getAllConsolas,
+  getOneConsola,
+  createConsola,
+  deleteConsola,
+  updateConsola
 } = require("./scripts/catalogo")
 
 // Health route
