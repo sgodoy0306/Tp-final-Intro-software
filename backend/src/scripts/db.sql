@@ -3,7 +3,7 @@ CREATE TABLE Desarrolladoras (
     Id SERIAL PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
     Fundacion INTEGER NOT NULL,
-    "Pais de origen" VARCHAR(100),
+    Origen VARCHAR(100),
     Fundador VARCHAR(1000),
     Descripcion VARCHAR(100)
 );
@@ -14,8 +14,7 @@ CREATE TABLE Consolas (
     Año INTEGER NOT NULL,
     Compañia VARCHAR(100),
     Formatos VARCHAR(100) NOT NULL, 
-    Descripcion VARCHAR(1000),
-    País VARCHAR(100) NOT NULL
+    Descripcion VARCHAR(500),
 );
 
 CREATE TABLE Juegos (
@@ -24,8 +23,14 @@ CREATE TABLE Juegos (
     Año INTEGER,
     Desarrolladora INTEGER NOT NULL REFERENCES Desarrolladoras(Id), -- foreign key
     Genero VARCHAR(100),
-    Consola INTEGER NOT NULL REFERENCES Consolas(Id) -- foreign key
+    VENTAS INTEGER
 );
+
+CREATE TABLE Relacion (
+    juego_id INTEGER REFERENCES juegos (Id),
+    consolas_id INTEGER REFERENCES Consolas (Id),
+    PRIMARY KEY (juego_id, Consolas_id)
+)
 
 -- inserts de ejemplo
 
@@ -44,3 +49,6 @@ VALUES
   ('The Legend of Zelda: Breath of the Wild', 2017, 1, 'Aventura', 1),
   ('Half-Life 2', 2004, 2, 'FPS', 2),
   ('Portal', 2007, 2, 'Puzzle-FPS', 2);
+
+INSERT INTO Relacion (juego_id, consola_id) 
+VALUES (1, 1);
