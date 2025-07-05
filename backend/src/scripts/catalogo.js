@@ -55,15 +55,6 @@ async function updateJuego(id, Nombre, Año, Desarrolladora, Genero, Consola) {
     return result.rows[0]
 }
 
-module.exports = {
-  getAllJuegos,
-  getOneJuego,
-  createJuego,
-  deleteJuego,
-  updateJuego
-}; 
-
-
 // Consolas
 
 async function getAllConsolas() {
@@ -102,7 +93,13 @@ async function updateConsola(id, Nombre, Año, Compañia, Formatos, Descripcion)
     return result.rows[0]
 }
 
+
 module.exports = {
+  getAllJuegos,
+  getOneJuego,
+  createJuego,
+  deleteJuego,
+  updateJuego,
   getAllConsolas,
   getOneConsola,
   createConsola,
