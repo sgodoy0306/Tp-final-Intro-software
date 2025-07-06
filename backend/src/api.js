@@ -15,7 +15,12 @@ const {
   getOneConsola,
   createConsola,
   deleteConsola,
-  updateConsola
+  updateConsola,
+  getAllDesarrolladoras,
+  getOneDesarrolladora,
+  createDesarrolladora,
+  deleteDesarrolladora,
+  updateDesarrolladora
 } = require("./scripts/catalogo")
 
 // Health route
@@ -109,4 +114,59 @@ app.post("/api/consolas/:id", async (req, res) => {
     return res.status(404).json({ error: "Consola no encontrada" })
   }
   res.json(consola)
+})
+
+// Desarrolladoras
+
+app.get("/api/desarrolladoras", async (req, res) => {
+  const desarrolladoras = await getAllDesarrolladoras()
+  res.json(desarrolladoras)
+})
+
+app.get("/api/desarrolladoras/:id", async (req, res) => {
+  const desarrolladora = await getOneDesarrolladora(req.params.id)
+  if (!desarrolladora) {
+    return res.status(404).json({ error: "Desarrolladora no encontrada" })
+  }
+  res.json(desarrolladora)
+})
+
+app.post("/api/desarrolladoras", async (req, res) => {
+  if (!req.body.nombre || !req.body.fundacion) {
+    return res.status(400).json({ error: "Faltan datos para crear la desarrolladora" })
+  }
+  const nuevaDesarrolladora = await createDesarrolladora(
+    req.body.nombre,
+    req.body.fundacion,
+    req.body.origen,
+    req.body.fundador,
+    req.body.descripcion
+  )
+  if (!nuevaDesarrolladora) {
+    return res.status(500).json({ error: "Error al crear la desarrolladora" })
+  }
+  res.json(nuevaDesarrolladora)
+})
+
+app.delete("/api/desarrolladoras/:id", async (req, res) => {
+  const desarrolladora = await deleteDesarrolladora(req.params.id)
+  if (!desarrolladora) {
+    return res.status(404).json({ error: "Desarrolladora no encontrada" })
+  }
+  res.json({ status: "OK", desarrolladoraEliminada: desarrolladora })
+})
+
+app.post("/api/desarrolladoras/:id", async (req, res) => {
+  const desarrolladora = await updateDesarrolladora(
+    req.params.id,
+    req.body.nombre,
+    req.body.fundacion,
+    req.body.origen,
+    req.body.fundador,
+    req.body.descripcion
+  )
+  if (!desarrolladora) {
+    return res.status(404).json({ error: "Desarrolladora no encontrada" })
+  }
+  res.json(desarrolladora)
 })
