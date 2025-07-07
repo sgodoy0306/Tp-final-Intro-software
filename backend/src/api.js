@@ -1,6 +1,9 @@
 const express = require("express");
+const cors = require("cors"); 
+
 
 const app = express();
+app.use(cors()); 
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
@@ -21,7 +24,7 @@ const {
   createDesarrolladora,
   deleteDesarrolladora,
   updateDesarrolladora,
-} = require("./scripts/catalogo");
+} = require("./scripts/catalogo.js");
 
 // Health route
 app.get("/api/health", (req, res) => {
@@ -113,7 +116,8 @@ app.post("/api/consolas", async (req, res) => {
     req.body.año,
     req.body.compañia,
     req.body.formato,
-    req.body.descripcion
+    req.body.descripcion,
+    req.body.url_imagen
   );
   if (!nuevaConsola) {
     return res.status(500).json({ error: "Error al crear la consola" });
@@ -136,7 +140,8 @@ app.post("/api/consolas/:id", async (req, res) => {
     req.body.año,
     req.body.compañia,
     req.body.formato,
-    req.body.descripcion
+    req.body.descripcion,
+    req.body.url_imagen
   );
   if (!consola) {
     return res.status(404).json({ error: "Consola no encontrada" });
