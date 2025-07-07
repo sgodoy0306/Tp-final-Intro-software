@@ -11,13 +11,13 @@ const dbClient = new Pool({
 // Juegos
 
 async function getAllJuegos() {
-  const result = await dbClient.query("SELECT * FROM Juegos");
+  const result = await dbClient.query("SELECT * FROM juegos");
   return result.rows;
 }
 
 async function getOneJuego(id) {
   const result = await dbClient.query(
-    "SELECT * FROM Juegos WHERE id= $1 LIMIT 1",
+    "SELECT * FROM juegos WHERE id= $1 LIMIT 1",
     [id]
   );
   return result.rows[0];
@@ -81,10 +81,10 @@ async function getOneConsola(id) {
   return result.rows[0];
 }
 
-async function createConsola(Nombre, Año, Compañia, Formatos, Descripcion) {
+async function createConsola(Nombre, Año, Compañia, Formatos, Descripcion, URL_IMAGEN) {
   const result = await dbClient.query(
-    "INSERT INTO Consolas (Nombre, Año, Compañia, Formatos, Descripcion) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [Nombre, Año, Compañia, Formatos, Descripcion]
+    "INSERT INTO Consolas (Nombre, Fundacion, Compañia, Descripcion, URL_IMAGEN) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [Nombre, Año, Compañia, Descripcion, URL_IMAGEN]
   );
   return result.rows[0];
 }
@@ -101,10 +101,10 @@ async function deleteConsola(id) {
   return result.rows[0];
 }
 
-async function updateConsola(id, Nombre, Año, Compañia, Formatos, Descripcion) {
+async function updateConsola(id, Nombre, Año, Compañia, Formatos, Descripcion, URL_IMAGEN) {
   const result = await dbClient.query(
-    "UPDATE Consolas SET Nombre = $2, Año = $3, Compañia = $4, Formatos = $5, Descripcion = $6 WHERE id = $1 RETURNING *",
-    [id, Nombre, Año, Compañia, Formatos, Descripcion]
+    "UPDATE Consolas SET Nombre = $2, Fundacion = $3, Compañia = $4, Descripcion = $5, URL_IMAGEN = $6 WHERE id = $1 RETURNING *",
+    [id, Nombre, Año, Compañia, Descripcion, URL_IMAGEN]
   );
   if (result.rowCount === 0) {
     return undefined;
