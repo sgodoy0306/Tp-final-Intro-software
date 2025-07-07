@@ -17,48 +17,82 @@ async function getAllJuegos() {
 
 async function getOneJuego(id) {
   const result = await dbClient.query(
-    "SELECT * FROM juegos WHERE id= $1 LIMIT 1",
+    "SELECT * FROM juegos WHERE id = $1 LIMIT 1",
     [id]
   );
   return result.rows[0];
 }
 
-async function createJuego(Nombre, Año, Desarrolladora, Genero, Consola) {
+// consolas puede ser un array de ids o un solo id
+async function createJuego(
+  nombre,
+  descripcion,
+  desarrolladora,
+  genero,
+  url_imagen,
+  consolas
+) {
   const result = await dbClient.query(
-    "INSERT INTO Juegos (Nombre, Año, Desarrolladora, Genero) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [Nombre, Año, Desarrolladora, Genero]
+    "INSERT INTO juegos (nombre, descripcion, desarrolladora, genero, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [nombre, descripcion, desarrolladora, genero, url_imagen]
   );
-  for (const consola of Consola) {
+  // Relacionar con consolas
+  if (Array.isArray(consolas)) {
+    for (const consolaId of consolas) {
+      await dbClient.query(
+        "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
+        [result.rows[0].id, consolaId]
+      );
+    }
+  } else if (consolas) {
     await dbClient.query(
-      "INSERT INTO Relacion (juego_id, consola_id) VALUES ($1, $2)",
-      [result.rows[0].id, consola]
+      "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
+      [result.rows[0].id, consolas]
     );
   }
   return result.rows[0];
 }
 
 async function deleteJuego(id) {
-  await dbClient.query("DELETE FROM Relacion WHERE juego_id = $1", [id]);
-  const result = dbClient.query(
+  await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
+  const result = await dbClient.query(
     "DELETE FROM juegos WHERE id = $1 RETURNING *",
     [id]
   );
-  if ((await result).rowCount === 0) {
+  if (result.rowCount === 0) {
     return undefined;
   }
   return result.rows[0];
 }
 
-async function updateJuego(id, Nombre, Año, Desarrolladora, Genero, Consola) {
+async function updateJuego(
+  id,
+  nombre,
+  descripcion,
+  desarrolladora,
+  genero,
+  url_imagen,
+  consolas
+) {
   const result = await dbClient.query(
-    "UPDATE Juegos SET Nombre = $2, Año = $3, Desarrolladora = $4, Genero = $5 WHERE id = $6 RETURNING *",
-    [id, Nombre, Año, Desarrolladora, Genero]
+    "UPDATE juegos SET nombre = $2, descripcion = $3, desarrolladora = $4, genero = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
+    [id, nombre, descripcion, desarrolladora, genero, url_imagen]
   );
-  for (const consola of Consola) {
-    await dbClient.query(
-      "UPDATE Relacion SET consola_id = $2 WHERE juego_id = $1",
-      [id, consola]
-    );
+  if (consolas) {
+    await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
+    if (Array.isArray(consolas)) {
+      for (const consolaId of consolas) {
+        await dbClient.query(
+          "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
+          [id, consolaId]
+        );
+      }
+    } else {
+      await dbClient.query(
+        "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
+        [id, consolas]
+      );
+    }
   }
   if (result.rowCount === 0) {
     return undefined;
@@ -69,42 +103,55 @@ async function updateJuego(id, Nombre, Año, Desarrolladora, Genero, Consola) {
 // Consolas
 
 async function getAllConsolas() {
-  const result = await dbClient.query("SELECT * FROM Consolas");
+  const result = await dbClient.query("SELECT * FROM consolas");
   return result.rows;
 }
 
 async function getOneConsola(id) {
   const result = await dbClient.query(
-    "SELECT * FROM Consolas WHERE id= $1 LIMIT 1",
+    "SELECT * FROM consolas WHERE id = $1 LIMIT 1",
     [id]
   );
   return result.rows[0];
 }
 
-async function createConsola(Nombre, Año, Compañia, Formatos, Descripcion, URL_IMAGEN) {
+async function createConsola(
+  nombre,
+  fundacion,
+  descripcion,
+  compania,
+  url_imagen
+) {
   const result = await dbClient.query(
-    "INSERT INTO Consolas (Nombre, Fundacion, Compañia, Descripcion, URL_IMAGEN) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [Nombre, Año, Compañia, Descripcion, URL_IMAGEN]
+    "INSERT INTO consolas (nombre, fundacion, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [nombre, fundacion, descripcion, compania, url_imagen]
   );
   return result.rows[0];
 }
 
 async function deleteConsola(id) {
+  await dbClient.query("DELETE FROM relacion WHERE consola_id = $1", [id]);
   const result = await dbClient.query(
-    "DELETE FROM Consolas WHERE id = $1 RETURNING *",
+    "DELETE FROM consolas WHERE id = $1 RETURNING *",
     [id]
   );
   if (result.rowCount === 0) {
     return undefined;
   }
-  await dbClient.query("DELETE FROM Relacion WHERE Consolas_id = $1", [id]);
   return result.rows[0];
 }
 
-async function updateConsola(id, Nombre, Año, Compañia, Formatos, Descripcion, URL_IMAGEN) {
+async function updateConsola(
+  id,
+  nombre,
+  fundacion,
+  descripcion,
+  compania,
+  url_imagen
+) {
   const result = await dbClient.query(
-    "UPDATE Consolas SET Nombre = $2, Fundacion = $3, Compañia = $4, Descripcion = $5, URL_IMAGEN = $6 WHERE id = $1 RETURNING *",
-    [id, Nombre, Año, Compañia, Descripcion, URL_IMAGEN]
+    "UPDATE consolas SET nombre = $2, fundacion = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
+    [id, nombre, fundacion, descripcion, compania, url_imagen]
   );
   if (result.rowCount === 0) {
     return undefined;
@@ -115,35 +162,35 @@ async function updateConsola(id, Nombre, Año, Compañia, Formatos, Descripcion,
 // Desarrolladoras
 
 async function getAllDesarrolladoras() {
-  const result = await dbClient.query("SELECT * FROM Desarrolladoras");
+  const result = await dbClient.query("SELECT * FROM desarrolladoras");
   return result.rows;
 }
 
 async function getOneDesarrolladora(id) {
   const result = await dbClient.query(
-    "SELECT * FROM Desarrolladoras WHERE id = $1 LIMIT 1",
+    "SELECT * FROM desarrolladoras WHERE id = $1 LIMIT 1",
     [id]
   );
   return result.rows[0];
 }
 
 async function createDesarrolladora(
-  Nombre,
-  Fundacion,
-  Origen,
-  Fundador,
-  Descripcion
+  nombre,
+  fundacion,
+  pais,
+  descripcion,
+  url_imagen
 ) {
   const result = await dbClient.query(
-    "INSERT INTO Desarrolladoras (Nombre, Fundacion, Origen, Fundador, Descripcion) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [Nombre, Fundacion, Origen, Fundador, Descripcion]
+    "INSERT INTO desarrolladoras (nombre, fundacion, pais, descripcion, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [nombre, fundacion, pais, descripcion, url_imagen]
   );
   return result.rows[0];
 }
 
 async function deleteDesarrolladora(id) {
   const result = await dbClient.query(
-    "DELETE FROM Desarrolladoras WHERE id = $1 RETURNING *",
+    "DELETE FROM desarrolladoras WHERE id = $1 RETURNING *",
     [id]
   );
   if (result.rowCount === 0) {
@@ -154,15 +201,15 @@ async function deleteDesarrolladora(id) {
 
 async function updateDesarrolladora(
   id,
-  Nombre,
-  Fundacion,
-  Origen,
-  Fundador,
-  Descripcion
+  nombre,
+  fundacion,
+  pais,
+  descripcion,
+  url_imagen
 ) {
   const result = await dbClient.query(
-    "UPDATE Desarrolladoras SET Nombre = $2, Fundacion = $3, Origen = $4, Fundador = $5, Descripcion = $6 WHERE id = $1 RETURNING *",
-    [id, Nombre, Fundacion, Origen, Fundador, Descripcion]
+    "UPDATE desarrolladoras SET nombre = $2, fundacion = $3, pais = $4, descripcion = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
+    [id, nombre, fundacion, pais, descripcion, url_imagen]
   );
   if (result.rowCount === 0) {
     return undefined;
