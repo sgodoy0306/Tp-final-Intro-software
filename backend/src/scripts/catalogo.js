@@ -21,10 +21,10 @@ async function getOneJuego(id) {
   return result.rows[0]
 }
 
-async function createJuego(Nombre, Anio, Desarrolladora, Genero, Consola) {
+async function createJuego(Nombre, Anio, Descripcion, Desarrolladora, Genero, Url) {
     const result = await dbClient.query(
-        'INSERT INTO Juegos (Nombre, Anio, Desarrolladora, Genero) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [Nombre, Anio, Desarrolladora, Genero])
+        'INSERT INTO Juegos (Nombre, Anio, Descripcion, Desarrolladora, Genero, Url) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [Nombre, Anio, Descripcion, Desarrolladora, Genero, Url])
       for (const consola of Consola) { 
         await dbClient.query(
           'INSERT INTO Relacion (Juego_id, Consola_id) VALUES ($1, $2)',
@@ -42,10 +42,10 @@ async function deleteJuego(id) {
     return result.rows[0]
 }
 
-async function updateJuego(id, Nombre, Anio, Desarrolladora, Genero, Consola) {
+async function updateJuego(id, Nombre, Anio, Descripcion, Desarrolladora, Genero, Url) {
     const result = await dbClient.query(
-        'UPDATE Juegos SET Nombre = $2, Anio = $3, Desarrolladora = $4, Genero = $5 WHERE id = $6 RETURNING *',
-        [id, Nombre, Anio, Desarrolladora, Genero])
+        'UPDATE Juegos SET Nombre = $2, Anio = $3, Descripcion = $4, Desarrolladora = $5, Genero = $6, Url = $7 WHERE id = $1 RETURNING *',
+        [id, Nombre, Anio, Descripcion, Desarrolladora, Genero, Url])
     for (const consola of Consola) {
       await dbClient.query('UPDATE Relacion SET Consola_id = $2 WHERE Juego_id = $1', [id, consola])
     }
@@ -76,10 +76,10 @@ async function getOneConsola(id) {
   return result.rows[0]
 }
 
-async function createConsola(Nombre, Anio, Compania, Formatos, Descripcion) {
+async function createConsola(Nombre, Anio, Descripcion, Compania, Url) {
     const result = await dbClient.query(
-        'INSERT INTO Consolas (Nombre, Anio, Compania, Formatos, Descripcion) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [Nombre, Anio, Compania, Formatos, Descripcion])
+        'INSERT INTO Consolas (Nombre, Anio, Descripcion, Compania, Url) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [Nombre, Anio, Descripcion, Compania, Url])
     return result.rows[0]
 }
 
@@ -92,10 +92,10 @@ async function deleteConsola(id) {
     return result.rows[0]
 }
 
-async function updateConsola(id, Nombre, Anio, Compania, Formatos, Descripcion) {
+async function updateConsola(id, Nombre, Anio, Descripcion, Compania, Url) {
     const result = await dbClient.query(
-        'UPDATE Consolas SET Nombre = $2, Anio = $3, Compania = $4, Formatos = $5, Descripcion = $6 WHERE id = $1 RETURNING *',
-        [id, Nombre, Anio, Compania, Formatos, Descripcion])
+        'UPDATE Consolas SET Nombre = $2, Anio = $3, Descripcion = $4, Compania = $5, Url = $6 WHERE id = $1 RETURNING *',
+        [id, Nombre, Anio, Descripcion, Compania, Url])
     if (result.rowCount === 0) {
         return undefined
     }
