@@ -2,28 +2,29 @@
 CREATE TABLE Desarrolladoras (
     Id SERIAL PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
-    Fundacion INTEGER NOT NULL,
+    Anio INTEGER,
     Origen VARCHAR(100),
-    Fundador VARCHAR(1000),
-    Descripcion VARCHAR(100)
+    Descripcion VARCHAR(100),
+    Url VARCHAR(500),
 );
 
 CREATE TABLE Consolas (
     Id SERIAL PRIMARY KEY,
     Nombre VARCHAR(100),
     Anio INTEGER NOT NULL,
-    Compania VARCHAR(100),
-    Formatos VARCHAR(100) NOT NULL, 
     Descripcion VARCHAR(500),
+    Compania VARCHAR(100),
+    Url VARCHAR(500),  
 );
 
 CREATE TABLE Juegos (
     Id SERIAL PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
     Anio INTEGER,
+    Descripcion VARCHAR(100),
     Desarrolladora INTEGER NOT NULL REFERENCES Desarrolladoras(Id), -- foreign key
     Genero VARCHAR(100),
-    Ventas INTEGER
+    Url VARCHAR(500),
 );
 
 CREATE TABLE Relacion (
