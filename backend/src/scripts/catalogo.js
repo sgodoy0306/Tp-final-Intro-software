@@ -21,10 +21,10 @@ async function getOneJuego(id) {
   return result.rows[0]
 }
 
-async function createJuego(Nombre, Año, Desarrolladora, Genero, Consola) {
+async function createJuego(Nombre, Anio, Desarrolladora, Genero, Consola) {
     const result = await dbClient.query(
         'INSERT INTO Juegos (Nombre, Año, Desarrolladora, Genero) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [Nombre, Año, Desarrolladora, Genero])
+        [Nombre, Anio, Desarrolladora, Genero])
       for (const consola of Consola) { 
         await dbClient.query(
           'INSERT INTO Relacion (juego_id, consola_id) VALUES ($1, $2)',
@@ -42,10 +42,10 @@ async function deleteJuego(id) {
     return result.rows[0]
 }
 
-async function updateJuego(id, Nombre, Año, Desarrolladora, Genero, Consola) {
+async function updateJuego(id, Nombre, Anio, Desarrolladora, Genero, Consola) {
     const result = await dbClient.query(
         'UPDATE Juegos SET Nombre = $2, Año = $3, Desarrolladora = $4, Genero = $5 WHERE id = $6 RETURNING *',
-        [id, Nombre, Año, Desarrolladora, Genero])
+        [id, Nombre, Anio, Desarrolladora, Genero])
     for (const consola of Consola) {
       await dbClient.query('UPDATE Relacion SET consola_id = $2 WHERE juego_id = $1', [id, consola])
     }
@@ -76,10 +76,10 @@ async function getOneConsola(id) {
   return result.rows[0]
 }
 
-async function createConsola(Nombre, Año, Compañia, Formatos, Descripcion) {
+async function createConsola(Nombre, Anio, Compania, Formatos, Descripcion) {
     const result = await dbClient.query(
         'INSERT INTO Consolas (Nombre, Año, Compañia, Formatos, Descripcion) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [Nombre, Año, Compañia, Formatos, Descripcion])
+        [Nombre, Anio, Compania, Formatos, Descripcion])
     return result.rows[0]
 }
 
@@ -92,10 +92,10 @@ async function deleteConsola(id) {
     return result.rows[0]
 }
 
-async function updateConsola(id, Nombre, Año, Compañia, Formatos, Descripcion) {
+async function updateConsola(id, Nombre, Anio, Compania, Formatos, Descripcion) {
     const result = await dbClient.query(
         'UPDATE Consolas SET Nombre = $2, Año = $3, Compañia = $4, Formatos = $5, Descripcion = $6 WHERE id = $1 RETURNING *',
-        [id, Nombre, Año, Compañia, Formatos, Descripcion])
+        [id, Nombre, Anio, Compania, Formatos, Descripcion])
     if (result.rowCount === 0) {
         return undefined
     }

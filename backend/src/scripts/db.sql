@@ -11,8 +11,8 @@ CREATE TABLE Desarrolladoras (
 CREATE TABLE Consolas (
     Id SERIAL PRIMARY KEY,
     Nombre VARCHAR(100),
-    Año INTEGER NOT NULL,
-    Compañia VARCHAR(100),
+    Anio INTEGER NOT NULL,
+    Compania VARCHAR(100),
     Formatos VARCHAR(100) NOT NULL, 
     Descripcion VARCHAR(500),
 );
@@ -20,15 +20,15 @@ CREATE TABLE Consolas (
 CREATE TABLE Juegos (
     Id SERIAL PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
-    Año INTEGER,
+    Anio INTEGER,
     Desarrolladora INTEGER NOT NULL REFERENCES Desarrolladoras(Id), -- foreign key
     Genero VARCHAR(100),
-    VENTAS INTEGER
+    Ventas INTEGER
 );
 
 CREATE TABLE Relacion (
-    juego_id INTEGER REFERENCES juegos (Id),
-    consolas_id INTEGER REFERENCES Consolas (Id),
+    Juego_id INTEGER REFERENCES juegos (Id),
+    Consolas_id INTEGER REFERENCES Consolas (Id),
     PRIMARY KEY (juego_id, Consolas_id)
 )
 

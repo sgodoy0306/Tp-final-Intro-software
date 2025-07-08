@@ -41,7 +41,7 @@ app.put("/api/juegos", async (req, res) => {
   if (!req.body.nombre || !req.body.desarrolladora || !req.body.consola) {
     return res.status(400).json({ error: "Faltan datos para crear el juego" })
   }
-  const nuevoJuego = await createJuego(req.body.nombre, req.body.año, req.body.desarrolladora, req.body.genero, req.body.ventas)
+  const nuevoJuego = await createJuego(req.body.nombre, req.body.anio, req.body.desarrolladora, req.body.genero, req.body.ventas)
   if (!nuevoJuego) {
     return res.status(500).json({ error: "Error al crear el juego" })
   }
@@ -57,7 +57,7 @@ app.delete("/api/juegos/:id", async (req, res) => {
 })
 
 app.put("/api/juegos/:id", async (req, res) => {
-  const juego = await updateJuego(req.params.id, req.body.nombre, req.body.año, req.body.desarrolladora, req.body.genero, req.body.ventas)
+  const juego = await updateJuego(req.params.id, req.body.nombre, req.body.anio, req.body.desarrolladora, req.body.genero, req.body.ventas)
   if (!juego) {
     return res.status(404).json({ error: "Juego no encontrado" })
   }
@@ -83,7 +83,7 @@ app.put("/api/consolas", async (req, res) => {
   if (!req.body.nombre || !req.body.formato) {
     return res.status(400).json({ error: "Faltan datos para crear la consola" })
   }
-  const nuevaConsola = await createConsola(req.body.nombre, req.body.año, req.body.compañia, req.body.formato, req.body.descripcion)
+  const nuevaConsola = await createConsola(req.body.nombre, req.body.anio, req.body.compania, req.body.formato, req.body.descripcion)
   if (!nuevaConsola) {
     return res.status(500).json({ error: "Error al crear la consola" })
   }
@@ -99,7 +99,7 @@ app.delete("/api/consolas/:id", async (req, res) => {
 })
 
 app.put("/api/consolas/:id", async (req, res) => {
-  const consola = await updateConsola(req.params.id, req.body.nombre, req.body.año, req.body.compañia, req.body.formato, req.body.descripcion)
+  const consola = await updateConsola(req.params.id, req.body.nombre, req.body.anio, req.body.compania, req.body.formato, req.body.descripcion)
   if (!consola) {
     return res.status(404).json({ error: "Consola no encontrada" })
   }
