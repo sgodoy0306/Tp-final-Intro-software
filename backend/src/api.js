@@ -37,7 +37,7 @@ app.get("/api/juegos/:id", async (req, res) => {
     res.json(juego)
 })
 
-app.post("/api/juegos", async (req, res) => {
+app.put("/api/juegos", async (req, res) => {
   if (!req.body.nombre || !req.body.desarrolladora || !req.body.consola) {
     return res.status(400).json({ error: "Faltan datos para crear el juego" })
   }
@@ -56,7 +56,7 @@ app.delete("/api/juegos/:id", async (req, res) => {
   res.json({ status: "OK", juegoEliminado: juego })
 })
 
-app.post("/api/juegos/:id", async (req, res) => {
+app.put("/api/juegos/:id", async (req, res) => {
   const juego = await updateJuego(req.params.id, req.body.nombre, req.body.año, req.body.desarrolladora, req.body.genero, req.body.ventas)
   if (!juego) {
     return res.status(404).json({ error: "Juego no encontrado" })
@@ -79,7 +79,7 @@ app.get("/api/consolas/:id", async (req, res) => {
     res.json(consola)
 })
 
-app.post("/api/consolas", async (req, res) => {
+app.put("/api/consolas", async (req, res) => {
   if (!req.body.nombre || !req.body.formato) {
     return res.status(400).json({ error: "Faltan datos para crear la consola" })
   }
@@ -98,7 +98,7 @@ app.delete("/api/consolas/:id", async (req, res) => {
   res.json({ status: "OK", consolaEliminada: consola })
 })
 
-app.post("/api/consolas/:id", async (req, res) => {
+app.put("/api/consolas/:id", async (req, res) => {
   const consola = await updateConsola(req.params.id, req.body.nombre, req.body.año, req.body.compañia, req.body.formato, req.body.descripcion)
   if (!consola) {
     return res.status(404).json({ error: "Consola no encontrada" })
