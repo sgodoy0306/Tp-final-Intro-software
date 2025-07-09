@@ -10,7 +10,7 @@ CREATE TABLE desarrolladoras (
 CREATE TABLE consolas (
   id SERIAL PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL, 
-  fundacion INTEGER NOT NULL,
+  lanzamiento INTEGER NOT NULL,
   descripcion VARCHAR(100),
   compania VARCHAR(100),
   url_imagen VARCHAR(200)

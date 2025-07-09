@@ -114,7 +114,7 @@ app.put("/api/consolas", async (req, res) => {
   }
   const nuevaConsola = await createConsola(
     req.body.nombre,
-    req.body.fundacion,
+    req.body.lanzamiento,
     req.body.descripcion,
     req.body.compania,
     req.body.url_imagen
@@ -137,7 +137,7 @@ app.put("/api/consolas/:id", async (req, res) => {
   const consola = await updateConsola(
     req.params.id,
     req.body.nombre,
-    req.body.fundacion,
+    req.body.lanzamiento,
     req.body.descripcion,
     req.body.compania,
     req.body.url_imagen

@@ -117,14 +117,14 @@ async function getOneConsola(id) {
 
 async function createConsola(
   nombre,
-  fundacion,
+  lanzamiento,
   descripcion,
   compania,
   url_imagen
 ) {
   const result = await dbClient.query(
     "INSERT INTO consolas (nombre, fundacion, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [nombre, fundacion, descripcion, compania, url_imagen]
+    [nombre, lanzamiento, descripcion, compania, url_imagen]
   );
   return result.rows[0];
 }
@@ -144,14 +144,14 @@ async function deleteConsola(id) {
 async function updateConsola(
   id,
   nombre,
-  fundacion,
+  lanzamiento,
   descripcion,
   compania,
   url_imagen
 ) {
   const result = await dbClient.query(
     "UPDATE consolas SET nombre = $2, fundacion = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
-    [id, nombre, fundacion, descripcion, compania, url_imagen]
+    [id, nombre, lanzamiento, descripcion, compania, url_imagen]
   );
   if (result.rowCount === 0) {
     return undefined;
