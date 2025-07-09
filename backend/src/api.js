@@ -49,16 +49,17 @@ app.get("/api/juegos/:id", async (req, res) => {
   res.json(juego);
 });
 
-app.post("/api/juegos", async (req, res) => {
+app.put("/api/juegos", async (req, res) => {
   if (!req.body.nombre || !req.body.desarrolladora || !req.body.consola) {
     return res.status(400).json({ error: "Faltan datos para crear el juego" });
   }
   const nuevoJuego = await createJuego(
     req.body.nombre,
-    req.body.año,
+    req.body.descripcion,
     req.body.desarrolladora,
     req.body.genero,
-    req.body.ventas
+    req.body.url_imagen,
+    req.body.consola
   );
   if (!nuevoJuego) {
     return res.status(500).json({ error: "Error al crear el juego" });
@@ -74,14 +75,15 @@ app.delete("/api/juegos/:id", async (req, res) => {
   res.json({ status: "OK", juegoEliminado: juego });
 });
 
-app.post("/api/juegos/:id", async (req, res) => {
+app.put("/api/juegos/:id", async (req, res) => {
   const juego = await updateJuego(
     req.params.id,
     req.body.nombre,
-    req.body.año,
+    req.body.descripcion,
     req.body.desarrolladora,
     req.body.genero,
-    req.body.ventas
+    req.body.url_imagen,
+    req.body.consola
   );
   if (!juego) {
     return res.status(404).json({ error: "Juego no encontrado" });
@@ -104,7 +106,7 @@ app.get("/api/consolas/:id", async (req, res) => {
   res.json(consola);
 });
 
-app.post("/api/consolas", async (req, res) => {
+app.put("/api/consolas", async (req, res) => {
   if (!req.body.nombre || !req.body.formato) {
     return res
       .status(400)
@@ -112,10 +114,9 @@ app.post("/api/consolas", async (req, res) => {
   }
   const nuevaConsola = await createConsola(
     req.body.nombre,
-    req.body.año,
-    req.body.compañia,
-    req.body.formato,
+    req.body.lanzamiento,
     req.body.descripcion,
+    req.body.compania,
     req.body.url_imagen
   );
   if (!nuevaConsola) {
@@ -132,14 +133,13 @@ app.delete("/api/consolas/:id", async (req, res) => {
   res.json({ status: "OK", consolaEliminada: consola });
 });
 
-app.post("/api/consolas/:id", async (req, res) => {
+app.put("/api/consolas/:id", async (req, res) => {
   const consola = await updateConsola(
     req.params.id,
     req.body.nombre,
-    req.body.año,
-    req.body.compañia,
-    req.body.formato,
+    req.body.lanzamiento,
     req.body.descripcion,
+    req.body.compania,
     req.body.url_imagen
   );
   if (!consola) {
@@ -163,7 +163,7 @@ app.get("/api/desarrolladoras/:id", async (req, res) => {
   res.json(desarrolladora);
 });
 
-app.post("/api/desarrolladoras", async (req, res) => {
+app.put("/api/desarrolladoras", async (req, res) => {
   if (!req.body.nombre || !req.body.fundacion) {
     return res
       .status(400)
@@ -190,7 +190,7 @@ app.delete("/api/desarrolladoras/:id", async (req, res) => {
   res.json({ status: "OK", desarrolladoraEliminada: desarrolladora });
 });
 
-app.post("/api/desarrolladoras/:id", async (req, res) => {
+app.put("/api/desarrolladoras/:id", async (req, res) => {
   const desarrolladora = await updateDesarrolladora(
     req.params.id,
     req.body.nombre,
