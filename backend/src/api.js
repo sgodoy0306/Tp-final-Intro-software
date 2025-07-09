@@ -55,10 +55,11 @@ app.put("/api/juegos", async (req, res) => {
   }
   const nuevoJuego = await createJuego(
     req.body.nombre,
-    req.body.año,
+    req.body.descripcion,
     req.body.desarrolladora,
     req.body.genero,
-    req.body.ventas
+    req.body.url_imagen,
+    req.body.consola
   );
   if (!nuevoJuego) {
     return res.status(500).json({ error: "Error al crear el juego" });
@@ -78,10 +79,11 @@ app.put("/api/juegos/:id", async (req, res) => {
   const juego = await updateJuego(
     req.params.id,
     req.body.nombre,
-    req.body.año,
+    req.body.descripcion,
     req.body.desarrolladora,
     req.body.genero,
-    req.body.ventas
+    req.body.url_imagen,
+    req.body.consola
   );
   if (!juego) {
     return res.status(404).json({ error: "Juego no encontrado" });
@@ -112,10 +114,9 @@ app.put("/api/consolas", async (req, res) => {
   }
   const nuevaConsola = await createConsola(
     req.body.nombre,
-    req.body.año,
-    req.body.compañia,
-    req.body.formato,
+    req.body.fundacion,
     req.body.descripcion,
+    req.body.compania,
     req.body.url_imagen
   );
   if (!nuevaConsola) {
@@ -136,10 +137,9 @@ app.put("/api/consolas/:id", async (req, res) => {
   const consola = await updateConsola(
     req.params.id,
     req.body.nombre,
-    req.body.año,
-    req.body.compañia,
-    req.body.formato,
+    req.body.fundacion,
     req.body.descripcion,
+    req.body.compania,
     req.body.url_imagen
   );
   if (!consola) {
