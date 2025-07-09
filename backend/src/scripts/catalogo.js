@@ -123,7 +123,7 @@ async function createConsola(
   url_imagen
 ) {
   const result = await dbClient.query(
-    "INSERT INTO consolas (nombre, fundacion, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    "INSERT INTO consolas (nombre, lanzamiento, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
     [nombre, lanzamiento, descripcion, compania, url_imagen]
   );
   return result.rows[0];
@@ -150,7 +150,7 @@ async function updateConsola(
   url_imagen
 ) {
   const result = await dbClient.query(
-    "UPDATE consolas SET nombre = $2, fundacion = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
+    "UPDATE consolas SET nombre = $2, lanzamiento = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
     [id, nombre, lanzamiento, descripcion, compania, url_imagen]
   );
   if (result.rowCount === 0) {
