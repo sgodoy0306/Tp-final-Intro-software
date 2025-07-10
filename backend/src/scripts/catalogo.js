@@ -27,11 +27,14 @@ async function getOneJuego(id) {
 
   const juego = result.rows[0];
 
-  // Mostrar lista de consolas compatibles
+  // Seleccionar consolas compatibles:
+  // 1ero selecciona filas donde relacion.juego_id = id (i.e. compatibles)
+  // 2do, selecciona consolas.nombre donde relacion.consola_id = consolas.id
+  // devuelve un array de objetos con id y nombre de la consola
   const consolasCompatibles = await dbClient.query(
-    `SELECT 
-    consolas.id as id_consola,
-    consolas.nombre as consola
+    `SELECT
+    consolas.nombre AS consola,
+    consolas.id AS id
     FROM relacion
     JOIN consolas ON relacion.consola_id = consolas.id
     WHERE relacion.juego_id = $1`,
@@ -135,7 +138,33 @@ async function getOneConsola(id) {
     "SELECT * FROM consolas WHERE id = $1 LIMIT 1",
     [id]
   );
-  return result.rows[0];
+
+  if (result.rowCount === 0) {
+    return undefined;
+  }
+
+  const consola = result.rows[0];
+
+  // Seleccionar juegos compatibles:
+  // 1ero selecciona filas donde relacion.consola_id = id (i.e. compatibles)
+  // 2do, selecciona juegos.nombre donde relacion.juego_id = juegos.id
+  // devuelve un array de objetos con id y nombre de los juegos
+  const juegosCompatibles = await dbClient.query(
+    `SELECT 
+    juegos.nombre AS juego,
+    juegos.id AS id
+    FROM relacion
+    JOIN juegos ON relacion.juego_id = juegos.id
+    WHERE relacion.consola_id = $1`,
+    [id]
+  );
+
+  consola.juegos = juegosCompatibles.rows.map((row) => ({
+    id: row.id,
+    nombre: row.juego,
+  }));
+
+  return consola;
 }
 
 async function createConsola(
