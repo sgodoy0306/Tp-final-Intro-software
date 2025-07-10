@@ -38,7 +38,7 @@ INSERT INTO desarrolladoras (nombre, fundacion, pais, descripcion, url_imagen) V
 ('Rockstar Games', 1998, 'Estados Unidos', 'Famosos por GTA', 'https://ejemplo.com/rockstar.png'),
 ('CD Projekt', 1994, 'Polonia', 'Desarrolladora de The Witcher', 'https://ejemplo.com/cdprojekt.png');
 
-INSERT INTO consolas (nombre, fundacion, descripcion, compania, url_imagen) VALUES
+INSERT INTO consolas (nombre, lanzamiento, descripcion, compania, url_imagen) VALUES
 ('Nintendo Switch', 2017, 'Consola híbrida portátil', 'Nintendo', 'https://ejemplo.com/switch.png'),
 ('PlayStation 4', 2013, 'Consola de octava generación', 'Sony', 'https://ejemplo.com/ps4.png'),
 ('Xbox One', 2013, 'Consola de Microsoft', 'Microsoft', 'https://ejemplo.com/xboxone.png'),

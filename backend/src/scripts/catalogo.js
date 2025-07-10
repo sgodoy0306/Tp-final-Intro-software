@@ -17,10 +17,43 @@ async function getAllJuegos() {
 
 async function getOneJuego(id) {
   const result = await dbClient.query(
-    "SELECT * FROM juegos WHERE id = $1 LIMIT 1",
+    `SELECT 
+       juegos.*, 
+       desarrolladoras.nombre AS nombre_desarrolladora
+     FROM juegos
+     JOIN desarrolladoras ON juegos.desarrolladora = desarrolladoras.id
+     WHERE juegos.id = $1
+     LIMIT 1`,
     [id]
   );
-  return result.rows[0];
+
+  if (result.rowCount === 0) return undefined;
+
+  const juego = result.rows[0];
+
+  juego.desarrolladora = juego.nombre_desarrolladora;
+  delete juego.nombre_desarrolladora;
+
+  // Seleccionar consolas compatibles:
+  // 1ero selecciona filas donde relacion.juego_id = id (i.e. compatibles)
+  // 2do, selecciona consolas.nombre donde relacion.consola_id = consolas.id
+  // devuelve un array de objetos con id y nombre de la consola
+  const consolasCompatibles = await dbClient.query(
+    `SELECT
+    consolas.nombre AS consola,
+    consolas.id AS id
+    FROM relacion
+    JOIN consolas ON relacion.consola_id = consolas.id
+    WHERE relacion.juego_id = $1`,
+    [id]
+  );
+
+  juego.consolas = consolasCompatibles.rows.map((row) => ({
+    id: row.id,
+    nombre: row.consola,
+  }));
+
+  return juego;
 }
 
 // consolas puede ser un array de ids o un solo id
@@ -32,9 +65,16 @@ async function createJuego(
   url_imagen,
   consolas
 ) {
+  // Dado un nombre de desarrolladora, devuelve su id
+  const idDesarolladora = await getDesarrolladoraIdPorNombre(desarrolladora);
+
+  if (!idDesarolladora) {
+    return undefined;
+  }
+
   const result = await dbClient.query(
     "INSERT INTO juegos (nombre, descripcion, desarrolladora, genero, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [nombre, descripcion, desarrolladora, genero, url_imagen]
+    [nombre, descripcion, idDesarolladora, genero, url_imagen]
   );
   // Relacionar con consolas
   if (Array.isArray(consolas)) {
@@ -74,9 +114,15 @@ async function updateJuego(
   url_imagen,
   consolas
 ) {
+  const idDesarolladora = await getDesarrolladoraIdPorNombre(desarrolladora);
+
+  if (!idDesarolladora) {
+    return undefined;
+  }
+
   const result = await dbClient.query(
     "UPDATE juegos SET nombre = $2, descripcion = $3, desarrolladora = $4, genero = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
-    [id, nombre, descripcion, desarrolladora, genero, url_imagen]
+    [id, nombre, descripcion, idDesarolladora, genero, url_imagen]
   );
   if (consolas) {
     await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
@@ -112,7 +158,33 @@ async function getOneConsola(id) {
     "SELECT * FROM consolas WHERE id = $1 LIMIT 1",
     [id]
   );
-  return result.rows[0];
+
+  if (result.rowCount === 0) {
+    return undefined;
+  }
+
+  const consola = result.rows[0];
+
+  // Seleccionar juegos compatibles:
+  // 1ero selecciona filas donde relacion.consola_id = id (i.e. compatibles)
+  // 2do, selecciona juegos.nombre donde relacion.juego_id = juegos.id
+  // devuelve un array de objetos con id y nombre de los juegos
+  const juegosCompatibles = await dbClient.query(
+    `SELECT 
+    juegos.nombre AS juego,
+    juegos.id AS id
+    FROM relacion
+    JOIN juegos ON relacion.juego_id = juegos.id
+    WHERE relacion.consola_id = $1`,
+    [id]
+  );
+
+  consola.juegos = juegosCompatibles.rows.map((row) => ({
+    id: row.id,
+    nombre: row.juego,
+  }));
+
+  return consola;
 }
 
 async function createConsola(
@@ -215,6 +287,36 @@ async function updateDesarrolladora(
     return undefined;
   }
   return result.rows[0];
+}
+
+// Funciónes auxiliares
+
+// Dado un nombre de desarrolladora, devuelve su id o undefined si no existe
+async function getDesarrolladoraIdPorNombre(nombre) {
+  const res = await dbClient.query(
+    "SELECT id FROM desarrolladoras WHERE nombre = $1",
+    [nombre]
+  );
+
+  if (res.rowCount === 0) {
+    return undefined;
+  }
+
+  return res.rows[0].id;
+}
+
+// Dado el id de una desarolladora, devuelve su nombre o undefined si no existe
+async function getNombreDesarrolladoraPorId(id) {
+  const res = await dbClient.query(
+    "SELECT nombre FROM desarrolladoras WHERE id = $1",
+    [id]
+  );
+
+  if (res.rowCount === 0) {
+    return undefined; // o podés tirar un error si querés
+  }
+
+  return res.rows[0].nombre;
 }
 
 module.exports = {
