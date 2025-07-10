@@ -20,7 +20,30 @@ async function getOneJuego(id) {
     "SELECT * FROM juegos WHERE id = $1 LIMIT 1",
     [id]
   );
-  return result.rows[0];
+
+  if (result.rowCount === 0) {
+    return undefined;
+  }
+
+  const juego = result.rows[0];
+
+  // Mostrar lista de consolas compatibles
+  const consolasCompatibles = await dbClient.query(
+    `SELECT 
+    consolas.id as id_consola,
+    consolas.nombre as consola
+    FROM relacion
+    JOIN consolas ON relacion.consola_id = consolas.id
+    WHERE relacion.juego_id = $1`,
+    [id]
+  );
+
+  juego.consolas = consolasCompatibles.rows.map((row) => ({
+    id: row.id,
+    nombre: row.consola,
+  }));
+
+  return juego;
 }
 
 // consolas puede ser un array de ids o un solo id
