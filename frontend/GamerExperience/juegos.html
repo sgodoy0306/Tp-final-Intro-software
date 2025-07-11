@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Juegos</title>
+    <link rel="icon" type="image/png" href="./assets/images/favicon.png">
+    <link rel="stylesheet" href="assets/output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#131212]">
+
+    <div class="fixed inset-0 w-full h-full z-50 pointer-events-none object-cover">
+        <img src="./assets/images/bezel.png" alt="" class="absolute inset-0 w-full h-full object-cover lg:object-fill md:object-fill sm:object-cover object-center pointer-events-none">
+    </div>
+    <header class="bg-[#131212] w-full py-8 relative z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <a href="./home.html" class="flex items-center">
+                    <img src="./assets/images/logo.png" alt="Gamer Experience" class="h-16 w-auto relative top-7 left-22">
+                </a>
+                <h1 class="text-4xl font-pixel font-bold text-yellow-400 text-center mt-10 2xl:mt-14">CATÁLOGO DE JUEGOS</h1>
+                <div class="w-16"></div>
+            </div>
+        </div>
+    </header>
+
+    <section class="w-full min-h-screen bg-[#131212] relative z-10">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <aside class="w-full lg:w-80 flex-shrink-0">
+                    <button id="toggleFilters" class="lg:hidden w-full mb-4 bg-green-600 hover:bg-green-700 text-white font-pixel px-6 py-3 rounded-lg border-2 border-green-500 transition-all duration-150 font-bold">
+                        MOSTRAR FILTROS
+                    </button>
+                    
+                    <div id="filtersContainer" class="hidden lg:block bg-[#181612]/80 backdrop-blur-md rounded-2xl p-6 border border-[#23201c] shadow-2xl lg:sticky lg:top-8">
+                        <h2 class="text-2xl font-pixel font-bold text-green-400 mb-6 text-center">FILTROS</h2>
+                        
+                        <div class="mb-6">
+                            <label class="block text-yellow-300 font-pixel font-bold mb-2">BÚSQUEDA</label>
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Buscar juegos..." 
+                                class="w-full p-3 bg-black border-2 border-gray-600 rounded-lg text-white font-pixel focus:border-yellow-400 focus:outline-none text-sm"
+                            >
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-yellow-300 font-pixel font-bold mb-2">CONSOLAS</label>
+                            <select id="consolaFilter" class="w-full p-3 bg-black border-2 border-gray-600 rounded-lg text-white font-pixel focus:border-yellow-400 focus:outline-none text-sm">
+                                <option value="">Todas las consolas</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-yellow-300 font-pixel font-bold mb-2">DESARROLLADORAS</label>
+                            <select id="desarrolladoraFilter" class="w-full p-3 bg-black border-2 border-gray-600 rounded-lg text-white font-pixel focus:border-yellow-400 focus:outline-none text-sm">
+                                <option value="">Todas las desarrolladoras</option>
+                            </select>
+                        </div>
+
+                        
+                        <div class="mb-6">
+                            <label class="block text-yellow-300 font-pixel font-bold mb-2">GÉNEROS</label>
+                            <select id="generoFilter" class="w-full p-3 bg-black border-2 border-gray-600 rounded-lg text-white font-pixel focus:border-yellow-400 focus:outline-none text-sm">
+                                <option value="">Todos los géneros</option>
+                                <option value="Acción">Acción</option>
+                                <option value="Aventura">Aventura</option>
+                                <option value="Deportes">Deportes</option>
+                                <option value="RPG">RPG</option>
+                                <option value="Plataformas">Plataformas</option>
+                                <option value="Lucha">Lucha</option>
+                                <option value="Estrategia">Estrategia</option>
+                                <option value="Puzzle">Puzzle</option>
+                                <option value="Shooter">Shooter</option>
+                                <option value="Carreras">Carreras</option>
+                                <option value="Survival Horror">Survival Horror</option>
+                                <option value="Party">Party</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6 text-center">
+                            <p id="resultCounter" class="text-lg font-pixel text-gray-300">
+                                <span id="currentCount">0</span> juegos encontrados
+                            </p>
+                        </div>
+
+                        <div class="text-center">
+                            <button 
+                                id="clearFilters" 
+                                class="w-full bg-red-600 hover:bg-red-700 text-white font-pixel px-6 py-3 rounded-lg border-2 border-red-500 hover:border-red-400 transition-all duration-150 font-bold"
+                            >
+                                LIMPIAR FILTROS
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+
+                <main class="flex-1 min-w-0">
+                    <div id="loadingIndicator" class="text-center py-20">
+                        <div class="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-yellow-400"></div>
+                        <p class="text-yellow-400 font-pixel mt-4">Cargando juegos...</p>
+                    </div>
+
+                    <div id="juegosList" class="grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 hidden">
+                    </div>
+
+                    <div id="noResults" class="text-center py-20 hidden">
+                        <div class="bg-[#181612]/80 backdrop-blur-md rounded-2xl p-8 border border-[#23201c] inline-block">
+                            <p class="text-2xl font-pixel text-red-400 mb-4">No se encontraron juegos</p>
+                            <p class="text-gray-300 font-pixel">Prueba con otros filtros o términos de búsqueda</p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <footer class="w-full flex space-x-6 justify-center items-center pb-16 pt-10 bg-[#181612] border-t border-[#23201c] relative z-10">
+        <a href="./home.html" class="bg-black text-yellow-300 font-pixel px-8 py-4 rounded-lg border-2 border-yellow-400 shadow-[0_4px_0_0_#222,0_8px_0_0_#000] hover:bg-yellow-400 hover:text-black hover:border-yellow-500 active:shadow-none active:translate-y-1 transition-all duration-150 font-bold text-xl text-center select-none relative overflow-hidden">
+            <span class="absolute inset-0 pointer-events-none border-b-4 border-yellow-400 opacity-30 rounded-b-lg"></span>
+            <span class="relative z-10">← VOLVER AL INICIO</span>
+        </a>
+        <a href="./admin-juegos.html" class="bg-black text-yellow-300 font-pixel px-8 py-4 rounded-lg border-2 border-yellow-400 shadow-[0_4px_0_0_#222,0_8px_0_0_#000] hover:bg-yellow-400 hover:text-black hover:border-yellow-500 active:shadow-none active:translate-y-1 transition-all duration-150 font-bold text-xl text-center select-none relative overflow-hidden">
+            <span class="absolute inset-0 pointer-events-none border-b-4 border-yellow-400 opacity-30 rounded-b-lg"></span>
+            <span class="relative z-10">ADMINISTRAR</span>
+        </a>
+    </footer>
+    <div id="static-effect" class="fixed inset-0 w-full h-full pointer-events-none z-60" style="background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover repeat; opacity: 0.01; mix-blend-mode: lighten; pointer-events: none;"></div>
+
+    <div id="juegoModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-[#181612]/95 backdrop-blur-md rounded-2xl border border-[#23201c] shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                <h2 id="modalTitulo" class="text-3xl font-pixel font-bold text-yellow-40 0">Detalles del Juego</h2>
+                <button id="cerrarModal" class="text-gray-400 hover:text-white text-3xl font-bold transition-colors duration-150">
+                    ×
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <img 
+                            id="modalImagen" 
+                            src="" 
+                            alt="" 
+                            class="w-full h-80 object-cover rounded-lg border-2 border-gray-600"
+                            onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'"
+                        >
+                        
+                        <div>
+                            <h3 class="text-xl font-pixel font-bold text-green-400 mb-3">DISPONIBLE EN:</h3>
+                            <div id="modalConsolas" class="grid grid-cols-2 gap-2">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-yellow-300 font-pixel font-bold mb-1">AÑO</label>
+                                <p id="modalAnio" class="text-white font-pixel text-lg bg-black/50 p-2 rounded border border-gray-600">-</p>
+                            </div>
+                            <div>
+                                <label class="block text-yellow-300 font-pixel font-bold mb-1">GÉNERO</label>
+                                <p id="modalGenero" class="text-white font-pixel text-lg bg-black/50 p-2 rounded border border-gray-600">-</p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-yellow-300 font-pixel font-bold mb-2">DESARROLLADORA</label>
+                            <div class="bg-black/50 p-4 rounded border border-gray-600">
+                                <p id="modalDesarrolladoraNombre" class="text-white font-pixel text-lg font-bold">-</p>
+                                <div class="text-sm text-gray-300 font-pixel mt-1 space-y-1">
+                                    <p><span class="text-green-400">Fundación:</span> <span id="modalDesarrolladoraFundacion">-</span></p>
+                                    <p><span class="text-green-400">País:</span> <span id="modalDesarrolladoraPais">-</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-yellow-300 font-pixel font-bold mb-2">DESCRIPCIÓN</label>
+                            <p id="modalDescripcion" class="text-gray-300 font-pixel text-sm leading-relaxed bg-black/50 p-4 rounded border border-gray-600 min-h-[100px]">
+                                No hay descripción disponible
+                            </p>
+                        </div>
+                        
+                        <div class="flex gap-4 pt-4">
+                            <button id="cerrarModal2" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-pixel px-6 py-3 rounded-lg border-2 border-gray-500 hover:border-gray-400 transition-all duration-150 font-bold">
+                                CERRAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="./assets/juegos-catalogo.js"></script>
+    
+</body>
+</html>

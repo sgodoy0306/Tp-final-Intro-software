@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Desarrolladora</title>
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
+    <link rel="stylesheet" href="assets/output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#131212]">
+    <div id="" class="fixed inset-0 w-full h-full z-50 pointer-events-none object-cover">
+        <img src="./assets/images/bezel.png" alt="" class="absolute inset-0 w-full h-full object-cover lg:object-fill md:object-fill sm:object-cover  object-center pointer-events-none">
+    </div>  
+  <header class="flex bg-[#0e0d0d] items-center justify-between w-full h-32 pt-12 pl-20 2xl:pt-16 mt-auto 2xl:h-36">
+    <div class="2xl:relative 2xl:left-6 flex items-center">
+      <img src="./assets/images/user-logo.png" class="w-12 h-12 mr-4 select-none" draggable="false" />
+      <span class=" font-pixel text-amber-50 text-xl select-none">
+        ADMIN
+      </span>
+    </div>
+        <div class="flex absolute left-64">
+            <a href="admin-desarrolladora.html" class="bg-green-600 hover:bg-green-800 text-gray-300 py-3 px-6 rounded-2xl font-pixel">
+                AGREGAR
+            </a>
+        </div>
+        <div class="flex absolute left-96">
+            <a href="admin-desarrolladora-eliminar.html" class="bg-red-600 hover:bg-red-800 text-gray-300 py-3 px-6 rounded-2xl font-pixel">
+                ELIMINAR
+            </a>
+        </div>
+    <div class="pr-18">
+      <a href="home.html" class="text-amber-100 font-pixel font-bold text-xl 2xl:relative 2xl:-left-10">
+        Pagina Principal
+      </a>
+    </div>
+    </header>
+    <main class="flex flex-col items-center justify-center mt-16">
+        <h2 class="font-pixel text-3xl text-amber-50 mb-8">Editar Desarrolladora</h2>
+        <form id="editDesarrolladoraForm" class="bg-[#1a1919] p-8 rounded-xl shadow-lg flex mb-16 flex-col gap-6">
+            <div>
+                <label for="desarrolladoraSelect" class="font-pixel text-amber-50">Selecciona Desarrolladora</label>
+                <select id="desarrolladoraSelect" name="desarrolladoraSelect" class="w-full mt-2 p-2 rounded bg-[#232222] text-amber-50 font-pixel" required>
+                    <option value="">-- Selecciona una desarrolladora --</option>
+                </select>
+            </div>
+            <div>
+                <label for="nombre" class="font-pixel text-amber-50">Nombre</label>
+                <input type="text" id="nombre" name="nombre" class="w-full mt-2 p-2 rounded bg-[#232222] text-amber-50 font-pixel" required>
+            </div>
+            <div>
+                <label for="fundacion" class="font-pixel text-amber-50">Año de Fundación</label>
+                <input type="number" id="fundacion" name="fundacion" min="1800" max="2025" class="w-full mt-2 p-2 rounded bg-[#232222] text-amber-50 font-pixel" required>
+            </div>
+            <div>
+                <label for="pais" class="font-pixel text-amber-50">País</label>
+                <input type="text" id="pais" name="pais" class="w-full mt-2 p-2 rounded bg-[#232222] text-amber-50 font-pixel" required>
+            </div>
+            <div>
+                <label for="descripcion" class="font-pixel text-amber-50">Descripción</label>
+                <textarea id="descripcion" name="descripcion" rows="3" class="w-full mt-2 p-2 rounded bg-[#232222] text-amber-50 font-pixel" required></textarea>
+            </div>
+            <div>
+                <label for="url_imagen" class="font-pixel text-amber-50">URL del Logo</label>
+                <input type="url" id="url_imagen" name="url_imagen" placeholder="https://ejemplo.com/logo.png" class="w-full mt-2 p-2 rounded bg-[#232222] text-amber-50 font-pixel">
+            </div>
+            <p id="mensaje" class="font-pixel text-center mt-2"></p>
+            <button type="submit" class="bg-green-700 hover:bg-green-900 text-amber-50 font-pixel py-3 px-6 rounded-2xl mt-4">Guardar Cambios</button>
+        </form>
+    </main>
+    
+    <script src="./assets/admin-desarrolladora-editar.js"></script>
+
+
+    <div id="static-effect" class="fixed inset-0 w-full h-full pointer-events-none" style="background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover repeat; opacity: 0.01; mix-blend-mode: lighten;"></div>
+    
+</body>
+</html>

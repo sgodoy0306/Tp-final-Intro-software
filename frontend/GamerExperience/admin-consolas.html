@@ -1,64 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Consolas</title>
-    <link rel="stylesheet" href="assets/output.css">
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agregar Consolas</title>
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
+  <link rel="stylesheet" href="assets/output.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet" />
 </head>
+
 <body class="bg-[#131212]">
-    <div id="" class="fixed inset-0 w-full h-full z-50 pointer-events-none object-cover">
-        <img src="./assets/images/bezel.png" alt="" class="absolute inset-0 w-full h-full object-cover lg:object-fill md:object-fill sm:object-cover  object-center pointer-events-none">
-    </div>  
-    <header class="flex bg-[#0e0d0d] items-center justify-between w-full h-28 pl-20 pt-12 ">
-        <div class="flex items-center">
-            <img src="./assets/images/user-logo.png" class="w-12 h-12 mr-4 select-none" draggable="false">
-            <span class="font-pixel text-amber-50 text-xl select-none">
-                ADMIN
-            </span>
-        </div>
-        <div class="pr-18">
-            <a href="home.html" class="text-amber-100 font-pixel font-bold text-xl">
-                Pagina Principal
-            </a>
-        </div>
-    </header>
-    <form action="" class="mt-18 mb-18 mx-auto max-w-xl bg-[#1a1919] p-8 rounded-lg shadow-lg flex flex-col gap-6 font-pixel text-amber-50">
-        <!-- Sección nombre -->
-        <div class="flex flex-col gap-2">
-            <label for="platform-name" class="text-lg">Nombre de la Consola</label>
-            <input type="text" id="platform-name" name="platform-name" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
-        </div>
-        <!-- Sección año lanzamiento -->
-        <div class="flex flex-col gap-2">
-            <label for="platform-year" class="text-lg">Año de lanzamiento</label>
-            <input type="year" id="platform-year" name="platform-year" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
-        </div>
-        <!-- Sección descripcion -->
-        <div class="flex flex-col gap-2">
-            <label for="platform-desc" class="text-lg">Descripción</label>
-            <textarea id="platform-desc" name="platform-desc" rows="3" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required></textarea>
-        </div>
-        <!-- Sección compañia  -->
-        <div class="flex flex-col gap-2">
-            <label for="company-name" class="text-lg">Compañía</label>
-            <input type="text" id="company-name" name="company-name" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
-        </div>
-        <!-- Sección logo -->
-        <div class="flex flex-col gap-2">
-            <label for="platform-logo" class="text-lg">URL logo de la Plataforma</label>
-            <input type="url" id="platform-logo" name="platform-logo" placeholder="https://ejemplo.com/logo.png" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
-        </div>
-        <button type="submit" class="mt-4 bg-amber-500 hover:bg-amber-600 text-lg text-[#131212] font-bold py-2 px-6 rounded transition">Guardar</button>
+  <div id="" class="fixed inset-0 w-full h-full z-50 pointer-events-none object-cover">
+    <img src="./assets/images/bezel.png" alt=""
+      class="absolute inset-0 w-full h-full object-cover lg:object-fill md:object-fill sm:object-cover object-center pointer-events-none" />
+  </div>
+  <header class="flex bg-[#0e0d0d] items-center justify-between w-full h-32 pt-12 pl-20 2xl:pt-16 mt-auto 2xl:h-36">
+    <div class="2xl:relative 2xl:left-6 flex items-center">
+      <img src="./assets/images/user-logo.png" class="w-12 h-12 mr-4 select-none" draggable="false" />
+      <span class=" font-pixel text-amber-50 text-xl select-none">
+        ADMIN
+      </span>
+    </div>
+    <div class="flex absolute left-64">
+      <a href="admin-consolas-editar.html"
+        class="bg-blue-600 hover:bg-blue-800 text-gray-300 py-3 px-6 rounded-2xl font-pixel">
+        EDITAR
+      </a>
+    </div>
+    <div class="flex absolute left-96">
+      <a href="admin-consolas-eliminar.html"
+        class="bg-red-600 hover:bg-red-800 text-gray-300 py-3 px-6 rounded-2xl font-pixel">
+        ELIMINAR
+      </a>
+    </div>
+    <div class="pr-18">
+      <a href="home.html" class="text-amber-100 font-pixel font-bold text-xl 2xl:relative 2xl:-left-10">
+        Pagina Principal
+      </a>
+    </div>
+  </header>
+  <main class="flex flex-col items-center justify-center mt-16">
+    <h2 class="font-pixel text-3xl text-amber-50">Agregar Consola</h2>
+    <form action=""
+      class="mt-10 mb-18 mx-auto max-w-xl bg-[#1a1919] p-8 rounded-lg shadow-lg flex flex-col gap-6 font-pixel text-amber-50 w-full">
+      <div class="flex flex-col gap-2">
+        <label for="platform-name" class="text-lg">Nombre de la Consola</label>
+        <input type="text" id="platform-name" name="platform-name"
+          class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="platform-year" class="text-lg">Año de lanzamiento</label>
+        <input type="year" id="platform-year" name="platform-year"
+          class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="platform-desc" class="text-lg">Descripción</label>
+        <textarea id="platform-desc" name="platform-desc" rows="3"
+          class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none"
+          required></textarea>
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="company-name" class="text-lg">Compañía</label>
+        <input type="text" id="company-name" name="company-name"
+          class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="platform-logo" class="text-lg">URL logo de la Plataforma</label>
+        <input type="url" id="platform-logo" name="platform-logo" placeholder="https://ejemplo.com/logo.png"
+          class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required />
+      </div>
+      <p id="mensaje" class="font-pixel text-center mt-2"></p>
+      <button type="submit"
+        class="mt-4 bg-amber-500 hover:bg-amber-600 text-lg text-[#131212] font-bold py-2 px-6 rounded transition">
+        Guardar
+      </button>
     </form>
+  </main>
 
+  <div id="static-effect" class="fixed inset-0 w-full h-full pointer-events-none" style="
+        background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif')
+          center center / cover repeat;
+        opacity: 0.01;
+        mix-blend-mode: lighten;
+      "></div>
 
-
-    
-
-    <div id="static-effect" class="fixed inset-0 w-full h-full pointer-events-none" style="background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover repeat; opacity: 0.01; mix-blend-mode: lighten;"></div>
-    
-    <script src="./assets/conexion.js"></script>
+  <script src="./assets/admin-consolas-agregar.js"></script>
 </body>
+
 </html>
