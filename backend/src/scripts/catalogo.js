@@ -59,6 +59,7 @@ async function getOneJuego(id) {
 // consolas puede ser un array de ids o un solo id
 async function createJuego(
   nombre,
+  anio,
   descripcion,
   desarrolladora,
   genero,
@@ -73,8 +74,8 @@ async function createJuego(
   }
 
   const result = await dbClient.query(
-    "INSERT INTO juegos (nombre, descripcion, desarrolladora, genero, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [nombre, descripcion, idDesarolladora, genero, url_imagen]
+    "INSERT INTO juegos (nombre, anio, descripcion, desarrolladora, genero, url_imagen) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+    [nombre, anio, descripcion, idDesarolladora, genero, url_imagen]
   );
   // Relacionar con consolas
   if (Array.isArray(consolas)) {
@@ -108,6 +109,7 @@ async function deleteJuego(id) {
 async function updateJuego(
   id,
   nombre,
+  anio,
   descripcion,
   desarrolladora,
   genero,
@@ -121,8 +123,8 @@ async function updateJuego(
   }
 
   const result = await dbClient.query(
-    "UPDATE juegos SET nombre = $2, descripcion = $3, desarrolladora = $4, genero = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
-    [id, nombre, descripcion, idDesarolladora, genero, url_imagen]
+    "UPDATE juegos SET nombre = $2, anio = $3, descripcion = $4, desarrolladora = $5, genero = $6, url_imagen = $7 WHERE id = $1 RETURNING *",
+    [id, nombre, anio, descripcion, idDesarolladora, genero, url_imagen]
   );
   if (consolas) {
     await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
