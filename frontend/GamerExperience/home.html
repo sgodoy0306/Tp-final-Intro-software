@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Gamer Experience</title>
+        <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
         <link rel="stylesheet" href="assets/output.css">
         <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
     </head>
@@ -42,7 +43,7 @@
                 
                 </div>
                 <div  class="catalog-button flex flex-1 w-full items-start justify-center mt-2 h-12 opacity-0 translate-y-8 transition-all duration-250">
-                    <a id="catalog-button" class="flex items-center justify-center mt-8 w-full h-20 bg-black rounded-lg shadow-[0_4px_0_0_#222,0_8px_0_0_#000] border-2 border-gray-300 hover:border-yellow-400 active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none relative overflow-hidden">
+                    <a href="./juegos.html" id="catalog-button" class="flex items-center justify-center mt-8 w-full h-20 bg-black rounded-lg shadow-[0_4px_0_0_#222,0_8px_0_0_#000] border-2 border-gray-300 hover:border-yellow-400 active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none relative overflow-hidden">
                         <span class="z-10 text-2xl font-pixel font-bold text-gray-100 tracking-widest drop-shadow-lg select-none px-8 py-2">
                             CATÁLOGO
                         </span>
@@ -51,57 +52,47 @@
                 </div>
             </div>
         </section>
-        <section id="genre-section" class="w-full h-screen flex justify-center bg-[#131212]">
-            <div id="genre-container" class="rounded-2xl w-2/3 h-3/5 lg:h-4/5 2xl:h-3/5 relative top-0 mx-auto bg-[#181612]/80 backdrop-blur-md p-8 shadow-[8px_8px_32px_0_rgba(0,0,0,0.45)] border border-[#23201c] flex flex-col items-center overflow-auto">
+        <section id="genre-section" class="w-full flex justify-center bg-[#131212] py-16">
+            <div id="genre-container" class="rounded-2xl w-2/3 relative top-0 mx-auto bg-[#181612]/80 backdrop-blur-md p-8 shadow-[8px_8px_32px_0_rgba(0,0,0,0.45)] border border-[#23201c] flex flex-col items-center overflow-auto">
                 <h2 class="text-3xl font-pixel font-bold text-yellow-400 text-center mb-8">Géneros de Videojuegos</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full">
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Acción" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Acción</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Aventura" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Aventura</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Deportes" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Deportes</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=RPG" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">RPG</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Plataformas" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Plataformas</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Lucha" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Lucha</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Estrategia" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Estrategia</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Puzzle" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Puzzle</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Shooter" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Shooter</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Carreras" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Carreras</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
-                        <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Simulación</span>
-                    </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Survival Horror" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Survival Horror</span>
                     </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
-                        <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Metroidvania</span>
-                    </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
-                        <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Beat 'em up</span>
-                    </a>
-                    <a href="#" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
+                    <a href="./juegos.html?genero=Party" class="diagonal-genre flex flex-col items-center justify-center bg-gradient-to-b from-gray-700 to-gray-900 rounded-md p-1.5 border-4 border-gray-800 shadow-[0_3px_0_0_#111,0_5px_0_0_#000] active:shadow-none active:translate-y-1 transition-all duration-150 cursor-pointer select-none hover:brightness-110">
                         <span class="text-base font-pixel text-gray-200 drop-shadow-[1px_1px_0_#444]">Party</span>
                     </a>
                 </div>
-            </div>
             </div>
         </section>
         <footer>
@@ -121,7 +112,7 @@
             </section>
         </footer>
         <div id="static-effect" class="fixed inset-0 w-full h-full pointer-events-none" style="background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover repeat; opacity: 0.01; mix-blend-mode: lighten;"></div>
-        <script src="./assets/conexion.js"></script>
+        <script src="./assets/conexion-home.js"></script>
         <script src="./assets/animaciones.js"></script>
     </body>
 </html>
