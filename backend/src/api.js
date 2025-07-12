@@ -49,7 +49,7 @@ app.get("/api/juegos/:id", async (req, res) => {
   res.json(juego);
 });
 
-app.put("/api/juegos", async (req, res) => {
+app.post("/api/juegos", async (req, res) => {
   if (!req.body.nombre || !req.body.desarrolladora || !req.body.consola) {
     return res.status(400).json({ error: "Faltan datos para crear el juego" });
   }
@@ -106,7 +106,7 @@ app.get("/api/consolas/:id", async (req, res) => {
   res.json(consola);
 });
 
-app.put("/api/consolas", async (req, res) => {
+app.post("/api/consolas", async (req, res) => {
   if (!req.body.nombre || !req.body.formato) {
     return res
       .status(400)
@@ -163,7 +163,7 @@ app.get("/api/desarrolladoras/:id", async (req, res) => {
   res.json(desarrolladora);
 });
 
-app.put("/api/desarrolladoras", async (req, res) => {
+app.post("/api/desarrolladoras", async (req, res) => {
   if (!req.body.nombre || !req.body.fundacion) {
     return res
       .status(400)
