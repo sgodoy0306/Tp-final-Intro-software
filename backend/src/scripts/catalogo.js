@@ -66,16 +66,9 @@ async function createJuego(
   url_imagen,
   consolas
 ) {
-  // Dado un nombre de desarrolladora, devuelve su id
-  const idDesarolladora = await getDesarrolladoraIdPorNombre(desarrolladora);
-
-  if (!idDesarolladora) {
-    return undefined;
-  }
-
   const result = await dbClient.query(
     "INSERT INTO juegos (nombre, anio, descripcion, desarrolladora, genero, url_imagen) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-    [nombre, anio, descripcion, idDesarolladora, genero, url_imagen]
+    [nombre, anio, descripcion, desarrolladora, genero, url_imagen]
   );
   // Relacionar con consolas
   if (Array.isArray(consolas)) {
@@ -116,15 +109,9 @@ async function updateJuego(
   url_imagen,
   consolas
 ) {
-  const idDesarolladora = await getDesarrolladoraIdPorNombre(desarrolladora);
-
-  if (!idDesarolladora) {
-    return undefined;
-  }
-
   const result = await dbClient.query(
     "UPDATE juegos SET nombre = $2, anio = $3, descripcion = $4, desarrolladora = $5, genero = $6, url_imagen = $7 WHERE id = $1 RETURNING *",
-    [id, nombre, anio, descripcion, idDesarolladora, genero, url_imagen]
+    [id, nombre, anio, descripcion, desarrolladora, genero, url_imagen]
   );
   if (consolas) {
     await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
@@ -289,36 +276,6 @@ async function updateDesarrolladora(
     return undefined;
   }
   return result.rows[0];
-}
-
-// Funciónes auxiliares
-
-// Dado un nombre de desarrolladora, devuelve su id o undefined si no existe
-async function getDesarrolladoraIdPorNombre(nombre) {
-  const res = await dbClient.query(
-    "SELECT id FROM desarrolladoras WHERE nombre = $1",
-    [nombre]
-  );
-
-  if (res.rowCount === 0) {
-    return undefined;
-  }
-
-  return res.rows[0].id;
-}
-
-// Dado el id de una desarolladora, devuelve su nombre o undefined si no existe
-async function getNombreDesarrolladoraPorId(id) {
-  const res = await dbClient.query(
-    "SELECT nombre FROM desarrolladoras WHERE id = $1",
-    [id]
-  );
-
-  if (res.rowCount === 0) {
-    return undefined; // o podés tirar un error si querés
-  }
-
-  return res.rows[0].nombre;
 }
 
 module.exports = {

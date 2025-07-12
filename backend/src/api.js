@@ -50,16 +50,17 @@ app.get("/api/juegos/:id", async (req, res) => {
 });
 
 app.post("/api/juegos", async (req, res) => {
-  if (!req.body.nombre || !req.body.desarrolladora || !req.body.consola) {
+  if (!req.body.nombre || !req.body.desarrolladora || !req.body.consolas) {
     return res.status(400).json({ error: "Faltan datos para crear el juego" });
   }
   const nuevoJuego = await createJuego(
     req.body.nombre,
+    req.body.anio,
     req.body.descripcion,
     req.body.desarrolladora,
     req.body.genero,
     req.body.url_imagen,
-    req.body.consola
+    req.body.consolas
   );
   if (!nuevoJuego) {
     return res.status(500).json({ error: "Error al crear el juego" });
