@@ -1,6 +1,6 @@
 // ---------------------------- SECCION PARA EDITAR LAS DESARROLLADORAS -----------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-  const apiUrl = "http://localhost:3000/api/desarrolladoras";
+  const apiUrl = "http://localhost:8000/api/desarrolladoras";
   const form = document.getElementById("editDesarrolladoraForm");
   const mensaje = document.getElementById("mensaje");
   const desarrolladoraSelect = document.getElementById("desarrolladoraSelect");
@@ -16,16 +16,19 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("📋 Cargando lista de desarrolladoras...");
       const res = await fetch(apiUrl);
       const desarrolladoras = await res.json();
-      
-      desarrolladoraSelect.innerHTML = '<option value="">-- Selecciona una desarrolladora --</option>';
-      
+
+      desarrolladoraSelect.innerHTML =
+        '<option value="">-- Selecciona una desarrolladora --</option>';
+
       desarrolladoras.forEach((desarrolladora) => {
         const option = document.createElement("option");
         option.value = desarrolladora.id;
-        option.textContent = `${desarrolladora.nombre || desarrolladora.Nombre} (${desarrolladora.pais || desarrolladora.Pais})`;
+        option.textContent = `${
+          desarrolladora.nombre || desarrolladora.Nombre
+        } (${desarrolladora.pais || desarrolladora.Pais})`;
         desarrolladoraSelect.appendChild(option);
       });
-      
+
       console.log(`✅ Cargadas ${desarrolladoras.length} desarrolladoras`);
     } catch (err) {
       mensaje.textContent = "Error al cargar desarrolladoras";
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Al cambiar la selección, carga los datos de la desarrolladora
   desarrolladoraSelect.addEventListener("change", async () => {
     const id = desarrolladoraSelect.value;
-    
+
     if (!id) {
       // Limpiar todos los campos
       document.getElementById("nombre").value = "";
@@ -56,15 +59,20 @@ document.addEventListener("DOMContentLoaded", function () {
       const desarrolladora = await res.json();
 
       // Llenar los campos con los datos de la desarrolladora
-      document.getElementById("nombre").value = desarrolladora.nombre || desarrolladora.Nombre || "";
-      document.getElementById("fundacion").value = desarrolladora.fundacion || desarrolladora.Fundacion || "";
-      document.getElementById("pais").value = desarrolladora.pais || desarrolladora.Pais || "";
-      document.getElementById("descripcion").value = desarrolladora.descripcion || desarrolladora.Descripcion || "";
-      document.getElementById("url_imagen").value = desarrolladora.url_imagen || desarrolladora.URL_IMAGEN || "";
+      document.getElementById("nombre").value =
+        desarrolladora.nombre || desarrolladora.Nombre || "";
+      document.getElementById("fundacion").value =
+        desarrolladora.fundacion || desarrolladora.Fundacion || "";
+      document.getElementById("pais").value =
+        desarrolladora.pais || desarrolladora.Pais || "";
+      document.getElementById("descripcion").value =
+        desarrolladora.descripcion || desarrolladora.Descripcion || "";
+      document.getElementById("url_imagen").value =
+        desarrolladora.url_imagen || desarrolladora.URL_IMAGEN || "";
 
       mensaje.textContent = "";
       mensaje.classList.remove("text-red-500", "text-green-500");
-      
+
       console.log("✅ Datos cargados exitosamente:", desarrolladora);
     } catch (err) {
       mensaje.textContent = "Error al cargar los datos de la desarrolladora";
@@ -87,7 +95,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const id = desarrolladoraSelect.value;
     const nombre = document.getElementById("nombre").value.trim();
-    const fundacion = parseInt(document.getElementById("fundacion").value.trim());
+    const fundacion = parseInt(
+      document.getElementById("fundacion").value.trim()
+    );
     const pais = document.getElementById("pais").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
     const url_imagen = document.getElementById("url_imagen").value.trim();
@@ -142,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       console.log("💾 Guardando cambios para desarrolladora ID:", id);
-      
+
       const response = await fetch(`${apiUrl}/${id}`, {
         method: "PUT",
         headers: {
@@ -153,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function () {
           fundacion,
           pais,
           descripcion,
-          url_imagen
+          url_imagen,
         }),
       });
 
@@ -162,24 +172,28 @@ document.addEventListener("DOMContentLoaded", function () {
         mensaje.textContent = "Desarrolladora actualizada exitosamente!";
         mensaje.classList.remove("text-red-500", "text-yellow-500");
         mensaje.classList.add("text-green-500");
-        
+
         console.log("✅ Desarrolladora actualizada:", result);
-        
+
         // Actualizar la opción en el select
-        const selectedOption = desarrolladoraSelect.querySelector(`option[value="${id}"]`);
+        const selectedOption = desarrolladoraSelect.querySelector(
+          `option[value="${id}"]`
+        );
         if (selectedOption) {
           selectedOption.textContent = `${nombre} (${pais})`;
         }
-        
       } else {
         const errorData = await response.json();
-        mensaje.textContent = "Error al actualizar la desarrolladora: " + (errorData.error || "Error desconocido");
+        mensaje.textContent =
+          "Error al actualizar la desarrolladora: " +
+          (errorData.error || "Error desconocido");
         mensaje.classList.remove("text-green-500", "text-yellow-500");
         mensaje.classList.add("text-red-500");
         console.error("❌ Error del servidor:", errorData);
       }
     } catch (error) {
-      mensaje.textContent = "Error de conexión. Verifica que el servidor esté ejecutándose.";
+      mensaje.textContent =
+        "Error de conexión. Verifica que el servidor esté ejecutándose.";
       mensaje.classList.remove("text-green-500", "text-yellow-500");
       mensaje.classList.add("text-red-500");
       console.error("💥 Error de conexión:", error);

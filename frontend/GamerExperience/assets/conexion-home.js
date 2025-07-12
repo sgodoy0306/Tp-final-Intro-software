@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (!platformsContainer) return;
 
   try {
-    const response = await fetch("http://localhost:3000/api/consolas");
+    const response = await fetch("http://localhost:8000/api/consolas");
     const consolas = await response.json();
 
     consolas.forEach((consola) => {

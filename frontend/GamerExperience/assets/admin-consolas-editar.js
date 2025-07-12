@@ -1,6 +1,6 @@
 // ---------------------------- SECCION PARA EDITAR LAS CONSOLAS -----------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-  const apiUrl = "http://localhost:3000/api/consolas";
+  const apiUrl = "http://localhost:8000/api/consolas";
   const form = document.getElementById("editConsolaForm");
   const mensaje = document.getElementById("mensaje");
   const consolaSelect = document.getElementById("consolaSelect");
@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Llenar los campos con los datos de la consola
       document.getElementById("nombre").value =
         consola.nombre || consola.Nombre || "";
-      document.getElementById("anio").value = consola.anio || consola.Anio || "";
+      document.getElementById("anio").value =
+        consola.anio || consola.Anio || "";
       document.getElementById("compania").value =
         consola.compania || consola.Compania || "";
       document.getElementById("formatos").value =

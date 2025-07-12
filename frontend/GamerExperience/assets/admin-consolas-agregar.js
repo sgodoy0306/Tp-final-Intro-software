@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/consolas", {
+      const response = await fetch("http://localhost:8000/api/consolas", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

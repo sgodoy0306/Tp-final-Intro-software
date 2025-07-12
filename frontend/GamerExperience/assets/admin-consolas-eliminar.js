@@ -9,9 +9,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const eliminarBtn = document.getElementById("eliminarBtn");
 
   // Solo ejecutar si estamos en la página de eliminar consolas
-  if (!form || !mensaje || !consolaSelect || !consolaInfo || !confirmacion || !confirmarEliminacion || !eliminarBtn) return;
+  if (
+    !form ||
+    !mensaje ||
+    !consolaSelect ||
+    !consolaInfo ||
+    !confirmacion ||
+    !confirmarEliminacion ||
+    !eliminarBtn
+  )
+    return;
 
-  const API_URL = "http://localhost:3000/api/consolas";
+  const API_URL = "http://localhost:8000/api/consolas";
 
   // Función para cargar todas las consolas
   async function cargarConsolas() {
