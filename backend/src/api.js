@@ -50,7 +50,7 @@ app.get("/api/juegos/:id", async (req, res) => {
 });
 
 app.post("/api/juegos", async (req, res) => {
-  if (!req.body.nombre || !req.body.desarrolladora || !req.body.consolas) {
+  if (!req.body.nombre) {
     return res.status(400).json({ error: "Faltan datos para crear el juego" });
   }
   const nuevoJuego = await createJuego(
@@ -108,14 +108,20 @@ app.get("/api/consolas/:id", async (req, res) => {
 });
 
 app.post("/api/consolas", async (req, res) => {
-  if (!req.body.nombre || !req.body.formato) {
+  if (
+    !req.body.nombre ||
+    !req.body.anio ||
+    !req.body.descripcion ||
+    !req.body.compania ||
+    !req.body.url_imagen
+  ) {
     return res
       .status(400)
       .json({ error: "Faltan datos para crear la consola" });
   }
   const nuevaConsola = await createConsola(
     req.body.nombre,
-    req.body.lanzamiento,
+    req.body.anio,
     req.body.descripcion,
     req.body.compania,
     req.body.url_imagen
@@ -138,7 +144,7 @@ app.put("/api/consolas/:id", async (req, res) => {
   const consola = await updateConsola(
     req.params.id,
     req.body.nombre,
-    req.body.lanzamiento,
+    req.body.anio,
     req.body.descripcion,
     req.body.compania,
     req.body.url_imagen
