@@ -12,10 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Obtener los valores del formulario
     const formData = {
       nombre: document.getElementById("platform-name").value,
-      año: parseInt(document.getElementById("platform-year").value),
+      anio: parseInt(document.getElementById("platform-year").value),
       descripcion: document.getElementById("platform-desc").value,
-      compañia: document.getElementById("company-name").value,
-      formato: document.getElementById("platform-year").value,
+      compania: document.getElementById("company-name").value,
       url_imagen: document.getElementById("platform-logo").value,
     };
 

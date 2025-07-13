@@ -79,8 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
         consola.anio || consola.Anio || "";
       document.getElementById("infoCompania").textContent =
         consola.compania || consola.Compania || "";
-      document.getElementById("infoFormatos").textContent =
-        consola.formatos || consola.Formatos || "";
       document.getElementById("infoDescripcion").textContent =
         consola.descripcion || consola.Descripcion || "";
 
