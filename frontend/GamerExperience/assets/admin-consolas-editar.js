@@ -1,6 +1,6 @@
 // ---------------------------- SECCION PARA EDITAR LAS CONSOLAS -----------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-  const apiUrl = "http://localhost:3000/api/consolas";
+  const apiUrl = "http://localhost:8000/api/consolas";
   const form = document.getElementById("editConsolaForm");
   const mensaje = document.getElementById("mensaje");
   const consolaSelect = document.getElementById("consolaSelect");
@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("nombre").value = "";
       document.getElementById("anio").value = "";
       document.getElementById("compania").value = "";
-      document.getElementById("formatos").value = "";
       document.getElementById("descripcion").value = "";
       document.getElementById("url_imagen").value = "";
       mensaje.textContent = "";
@@ -52,11 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
       // Llenar los campos con los datos de la consola
       document.getElementById("nombre").value =
         consola.nombre || consola.Nombre || "";
-      document.getElementById("anio").value = consola.anio || consola.Anio || "";
+      document.getElementById("anio").value =
+        consola.anio || consola.Anio || "";
       document.getElementById("compania").value =
         consola.compania || consola.Compania || "";
-      document.getElementById("formatos").value =
-        consola.formatos || consola.Formatos || "";
       document.getElementById("descripcion").value =
         consola.descripcion || consola.Descripcion || "";
       document.getElementById("url_imagen").value =
@@ -74,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("nombre").value = "";
       document.getElementById("anio").value = "";
       document.getElementById("compania").value = "";
-      document.getElementById("formatos").value = "";
       document.getElementById("descripcion").value = "";
       document.getElementById("url_imagen").value = "";
     }
@@ -88,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const nombre = document.getElementById("nombre").value.trim();
     const anio = parseInt(document.getElementById("anio").value.trim());
     const compania = document.getElementById("compania").value.trim();
-    const formatos = document.getElementById("formatos").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
     const url_imagen = document.getElementById("url_imagen").value.trim();
 
@@ -119,7 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
         nombre,
         anio,
         compania,
-        formatos,
         descripcion,
         url_imagen,
       };
@@ -158,7 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("nombre").value = "";
       document.getElementById("anio").value = "";
       document.getElementById("compania").value = "";
-      document.getElementById("formatos").value = "";
       document.getElementById("descripcion").value = "";
       document.getElementById("url_imagen").value = "";
       consolaSelect.value = "";

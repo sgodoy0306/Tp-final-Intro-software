@@ -9,9 +9,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const eliminarBtn = document.getElementById("eliminarBtn");
 
   // Solo ejecutar si estamos en la página de eliminar desarrolladoras
-  if (!form || !mensaje || !desarrolladoraSelect || !desarrolladoraInfo || !confirmacion || !confirmarEliminacion || !eliminarBtn) return;
+  if (
+    !form ||
+    !mensaje ||
+    !desarrolladoraSelect ||
+    !desarrolladoraInfo ||
+    !confirmacion ||
+    !confirmarEliminacion ||
+    !eliminarBtn
+  )
+    return;
 
-  const API_URL = "http://localhost:3000/api/desarrolladoras";
+  const API_URL = "http://localhost:8000/api/desarrolladoras";
 
   // Función para cargar todas las desarrolladoras
   async function cargarDesarrolladoras() {
@@ -38,9 +47,9 @@ document.addEventListener("DOMContentLoaded", function () {
       desarrolladoras.forEach((desarrolladora) => {
         const option = document.createElement("option");
         option.value = desarrolladora.id;
-        option.textContent = `${desarrolladora.nombre || desarrolladora.Nombre} (${
-          desarrolladora.pais || desarrolladora.Pais
-        })`;
+        option.textContent = `${
+          desarrolladora.nombre || desarrolladora.Nombre
+        } (${desarrolladora.pais || desarrolladora.Pais})`;
         desarrolladoraSelect.appendChild(option);
       });
 
@@ -70,19 +79,20 @@ document.addEventListener("DOMContentLoaded", function () {
         desarrolladora.fundacion || desarrolladora.Fundacion || "";
       document.getElementById("infoPais").textContent =
         desarrolladora.pais || desarrolladora.Pais || "";
-      
+
       // Manejar la imagen
-      const urlImagen = desarrolladora.url_imagen || desarrolladora.Url_imagen || "";
+      const urlImagen =
+        desarrolladora.url_imagen || desarrolladora.Url_imagen || "";
       const imagenElement = document.getElementById("infoImagen");
       const imagenError = document.getElementById("infoImagenError");
-      
+
       if (urlImagen) {
         imagenElement.src = urlImagen;
         imagenElement.style.display = "block";
         imagenError.style.display = "none";
-        
+
         // Manejar error de carga de imagen
-        imagenElement.onerror = function() {
+        imagenElement.onerror = function () {
           imagenElement.style.display = "none";
           imagenError.style.display = "block";
         };
@@ -90,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         imagenElement.style.display = "none";
         imagenError.style.display = "block";
       }
-      
+
       document.getElementById("infoDescripcion").textContent =
         desarrolladora.descripcion || desarrolladora.Descripcion || "";
 
@@ -103,7 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
       mensaje.className = "font-pixel text-center mt-2";
     } catch (error) {
       console.error("Error cargando información de desarrolladora:", error);
-      mensaje.textContent = "Error al cargar la información de la desarrolladora";
+      mensaje.textContent =
+        "Error al cargar la información de la desarrolladora";
       mensaje.className = "font-pixel text-center mt-2 text-red-500";
 
       // Ocultar secciones
@@ -217,7 +228,8 @@ document.addEventListener("DOMContentLoaded", function () {
       await cargarDesarrolladoras();
     } catch (error) {
       console.error("Error eliminando desarrolladora:", error);
-      mensaje.textContent = "Error al eliminar la desarrolladora: " + error.message;
+      mensaje.textContent =
+        "Error al eliminar la desarrolladora: " + error.message;
       mensaje.className = "font-pixel text-center mt-2 text-red-500";
     }
   });

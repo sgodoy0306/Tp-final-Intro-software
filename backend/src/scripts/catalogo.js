@@ -1,18 +1,59 @@
 const { Pool } = require("pg");
 
 const dbClient = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "db_back",
-  password: "password",
-  port: 5432,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 // Juegos
 
 async function getAllJuegos() {
-  const result = await dbClient.query("SELECT * FROM juegos");
-  return result.rows;
+  const result = await dbClient.query(`
+    SELECT
+      juegos.id,
+      juegos.nombre,
+      juegos.anio,
+      juegos.descripcion,
+      juegos.genero,
+      juegos.url_imagen,
+      juegos.desarrolladora, -- ID de la desarrolladora
+      desarrolladoras.nombre AS nombre_desarrolladora,
+      consolas.id AS consola_id,
+      consolas.nombre AS consola_nombre
+    FROM juegos
+    JOIN desarrolladoras ON juegos.desarrolladora = desarrolladoras.id
+    LEFT JOIN relacion ON juegos.id = relacion.juego_id
+    LEFT JOIN consolas ON relacion.consola_id = consolas.id
+    ORDER BY juegos.id;
+  `);
+
+  const juegosMap = {};
+
+  result.rows.forEach((row) => {
+    if (!juegosMap[row.id]) {
+      juegosMap[row.id] = {
+        id: row.id,
+        nombre: row.nombre,
+        anio: row.anio,
+        descripcion: row.descripcion,
+        genero: row.genero,
+        url_imagen: row.url_imagen,
+        desarrolladora: row.desarrolladora, // acá ya es el nombre, no el ID
+        consolas: [],
+      };
+    }
+    if (row.consola_id) {
+      juegosMap[row.id].consolas.push({
+        id: row.consola_id,
+        nombre: row.consola_nombre,
+      });
+    }
+  });
+
+  return Object.values(juegosMap);
 }
 
 async function getOneJuego(id) {
@@ -66,16 +107,9 @@ async function createJuego(
   url_imagen,
   consolas
 ) {
-  // Dado un nombre de desarrolladora, devuelve su id
-  const idDesarolladora = await getDesarrolladoraIdPorNombre(desarrolladora);
-
-  if (!idDesarolladora) {
-    return undefined;
-  }
-
   const result = await dbClient.query(
     "INSERT INTO juegos (nombre, anio, descripcion, desarrolladora, genero, url_imagen) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-    [nombre, anio, descripcion, idDesarolladora, genero, url_imagen]
+    [nombre, anio, descripcion, desarrolladora, genero, url_imagen]
   );
   // Relacionar con consolas
   if (Array.isArray(consolas)) {
@@ -116,15 +150,9 @@ async function updateJuego(
   url_imagen,
   consolas
 ) {
-  const idDesarolladora = await getDesarrolladoraIdPorNombre(desarrolladora);
-
-  if (!idDesarolladora) {
-    return undefined;
-  }
-
   const result = await dbClient.query(
     "UPDATE juegos SET nombre = $2, anio = $3, descripcion = $4, desarrolladora = $5, genero = $6, url_imagen = $7 WHERE id = $1 RETURNING *",
-    [id, nombre, anio, descripcion, idDesarolladora, genero, url_imagen]
+    [id, nombre, anio, descripcion, desarrolladora, genero, url_imagen]
   );
   if (consolas) {
     await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
@@ -189,16 +217,10 @@ async function getOneConsola(id) {
   return consola;
 }
 
-async function createConsola(
-  nombre,
-  lanzamiento,
-  descripcion,
-  compania,
-  url_imagen
-) {
+async function createConsola(nombre, anio, descripcion, compania, url_imagen) {
   const result = await dbClient.query(
-    "INSERT INTO consolas (nombre, lanzamiento, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [nombre, lanzamiento, descripcion, compania, url_imagen]
+    "INSERT INTO consolas (nombre, anio, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [nombre, anio, descripcion, compania, url_imagen]
   );
   return result.rows[0];
 }
@@ -218,14 +240,14 @@ async function deleteConsola(id) {
 async function updateConsola(
   id,
   nombre,
-  lanzamiento,
+  anio,
   descripcion,
   compania,
   url_imagen
 ) {
   const result = await dbClient.query(
-    "UPDATE consolas SET nombre = $2, lanzamiento = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
-    [id, nombre, lanzamiento, descripcion, compania, url_imagen]
+    "UPDATE consolas SET nombre = $2, anio = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
+    [id, nombre, anio, descripcion, compania, url_imagen]
   );
   if (result.rowCount === 0) {
     return undefined;
@@ -289,36 +311,6 @@ async function updateDesarrolladora(
     return undefined;
   }
   return result.rows[0];
-}
-
-// Funciónes auxiliares
-
-// Dado un nombre de desarrolladora, devuelve su id o undefined si no existe
-async function getDesarrolladoraIdPorNombre(nombre) {
-  const res = await dbClient.query(
-    "SELECT id FROM desarrolladoras WHERE nombre = $1",
-    [nombre]
-  );
-
-  if (res.rowCount === 0) {
-    return undefined;
-  }
-
-  return res.rows[0].id;
-}
-
-// Dado el id de una desarolladora, devuelve su nombre o undefined si no existe
-async function getNombreDesarrolladoraPorId(id) {
-  const res = await dbClient.query(
-    "SELECT nombre FROM desarrolladoras WHERE id = $1",
-    [id]
-  );
-
-  if (res.rowCount === 0) {
-    return undefined; // o podés tirar un error si querés
-  }
-
-  return res.rows[0].nombre;
 }
 
 module.exports = {

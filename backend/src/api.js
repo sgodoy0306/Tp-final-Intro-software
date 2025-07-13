@@ -5,7 +5,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 const {
   getAllJuegos,
@@ -30,7 +30,7 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "OK" });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("Server is running on PORT: ", PORT);
 });
 
@@ -49,17 +49,18 @@ app.get("/api/juegos/:id", async (req, res) => {
   res.json(juego);
 });
 
-app.put("/api/juegos", async (req, res) => {
-  if (!req.body.nombre || !req.body.desarrolladora || !req.body.consola) {
+app.post("/api/juegos", async (req, res) => {
+  if (!req.body.nombre) {
     return res.status(400).json({ error: "Faltan datos para crear el juego" });
   }
   const nuevoJuego = await createJuego(
     req.body.nombre,
+    req.body.anio,
     req.body.descripcion,
     req.body.desarrolladora,
     req.body.genero,
     req.body.url_imagen,
-    req.body.consola
+    req.body.consolas
   );
   if (!nuevoJuego) {
     return res.status(500).json({ error: "Error al crear el juego" });
@@ -106,15 +107,21 @@ app.get("/api/consolas/:id", async (req, res) => {
   res.json(consola);
 });
 
-app.put("/api/consolas", async (req, res) => {
-  if (!req.body.nombre || !req.body.formato) {
+app.post("/api/consolas", async (req, res) => {
+  if (
+    !req.body.nombre ||
+    !req.body.anio ||
+    !req.body.descripcion ||
+    !req.body.compania ||
+    !req.body.url_imagen
+  ) {
     return res
       .status(400)
       .json({ error: "Faltan datos para crear la consola" });
   }
   const nuevaConsola = await createConsola(
     req.body.nombre,
-    req.body.lanzamiento,
+    req.body.anio,
     req.body.descripcion,
     req.body.compania,
     req.body.url_imagen
@@ -137,7 +144,7 @@ app.put("/api/consolas/:id", async (req, res) => {
   const consola = await updateConsola(
     req.params.id,
     req.body.nombre,
-    req.body.lanzamiento,
+    req.body.anio,
     req.body.descripcion,
     req.body.compania,
     req.body.url_imagen
@@ -163,7 +170,7 @@ app.get("/api/desarrolladoras/:id", async (req, res) => {
   res.json(desarrolladora);
 });
 
-app.put("/api/desarrolladoras", async (req, res) => {
+app.post("/api/desarrolladoras", async (req, res) => {
   if (!req.body.nombre || !req.body.fundacion) {
     return res
       .status(400)
