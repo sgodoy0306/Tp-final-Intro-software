@@ -179,9 +179,9 @@ app.post("/api/desarrolladoras", async (req, res) => {
   const nuevaDesarrolladora = await createDesarrolladora(
     req.body.nombre,
     req.body.fundacion,
-    req.body.origen,
-    req.body.fundador,
-    req.body.descripcion
+    req.body.pais,
+    req.body.descripcion,
+    req.body.url_imagen
   );
   if (!nuevaDesarrolladora) {
     return res.status(500).json({ error: "Error al crear la desarrolladora" });
@@ -202,9 +202,9 @@ app.put("/api/desarrolladoras/:id", async (req, res) => {
     req.params.id,
     req.body.nombre,
     req.body.fundacion,
-    req.body.origen,
-    req.body.fundador,
-    req.body.descripcion
+    req.body.pais,
+    req.body.descripcion,
+    req.body.url_imagen
   );
   if (!desarrolladora) {
     return res.status(404).json({ error: "Desarrolladora no encontrada" });
