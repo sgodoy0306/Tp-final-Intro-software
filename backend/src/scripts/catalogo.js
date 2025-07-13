@@ -11,8 +11,49 @@ const dbClient = new Pool({
 // Juegos
 
 async function getAllJuegos() {
-  const result = await dbClient.query("SELECT * FROM juegos");
-  return result.rows;
+  const result = await dbClient.query(`
+    SELECT
+      juegos.id,
+      juegos.nombre,
+      juegos.anio,
+      juegos.descripcion,
+      juegos.genero,
+      juegos.url_imagen,
+      juegos.desarrolladora, -- ID de la desarrolladora
+      desarrolladoras.nombre AS nombre_desarrolladora,
+      consolas.id AS consola_id,
+      consolas.nombre AS consola_nombre
+    FROM juegos
+    JOIN desarrolladoras ON juegos.desarrolladora = desarrolladoras.id
+    LEFT JOIN relacion ON juegos.id = relacion.juego_id
+    LEFT JOIN consolas ON relacion.consola_id = consolas.id
+    ORDER BY juegos.id;
+  `);
+
+  const juegosMap = {};
+
+  result.rows.forEach((row) => {
+    if (!juegosMap[row.id]) {
+      juegosMap[row.id] = {
+        id: row.id,
+        nombre: row.nombre,
+        anio: row.anio,
+        descripcion: row.descripcion,
+        genero: row.genero,
+        url_imagen: row.url_imagen,
+        desarrolladora: row.desarrolladora, // acá ya es el nombre, no el ID
+        consolas: [],
+      };
+    }
+    if (row.consola_id) {
+      juegosMap[row.id].consolas.push({
+        id: row.consola_id,
+        nombre: row.consola_nombre,
+      });
+    }
+  });
+
+  return Object.values(juegosMap);
 }
 
 async function getOneJuego(id) {
@@ -176,16 +217,10 @@ async function getOneConsola(id) {
   return consola;
 }
 
-async function createConsola(
-  nombre,
-  lanzamiento,
-  descripcion,
-  compania,
-  url_imagen
-) {
+async function createConsola(nombre, anio, descripcion, compania, url_imagen) {
   const result = await dbClient.query(
-    "INSERT INTO consolas (nombre, lanzamiento, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [nombre, lanzamiento, descripcion, compania, url_imagen]
+    "INSERT INTO consolas (nombre, anio, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [nombre, anio, descripcion, compania, url_imagen]
   );
   return result.rows[0];
 }
@@ -205,14 +240,14 @@ async function deleteConsola(id) {
 async function updateConsola(
   id,
   nombre,
-  lanzamiento,
+  anio,
   descripcion,
   compania,
   url_imagen
 ) {
   const result = await dbClient.query(
-    "UPDATE consolas SET nombre = $2, lanzamiento = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
-    [id, nombre, lanzamiento, descripcion, compania, url_imagen]
+    "UPDATE consolas SET nombre = $2, anio = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
+    [id, nombre, anio, descripcion, compania, url_imagen]
   );
   if (result.rowCount === 0) {
     return undefined;
