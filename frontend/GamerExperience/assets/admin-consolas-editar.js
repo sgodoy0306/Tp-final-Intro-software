@@ -37,8 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Limpiar todos los campos
       document.getElementById("nombre").value = "";
       document.getElementById("anio").value = "";
-      document.getElementById("compania").value = "";
       document.getElementById("descripcion").value = "";
+      document.getElementById("compania").value = "";
       document.getElementById("url_imagen").value = "";
       mensaje.textContent = "";
       return;
@@ -53,10 +53,10 @@ document.addEventListener("DOMContentLoaded", function () {
         consola.nombre || consola.Nombre || "";
       document.getElementById("anio").value =
         consola.anio || consola.Anio || "";
-      document.getElementById("compania").value =
-        consola.compania || consola.Compania || "";
       document.getElementById("descripcion").value =
         consola.descripcion || consola.Descripcion || "";
+      document.getElementById("compania").value =
+        consola.compania || consola.Compania || "";
       document.getElementById("url_imagen").value =
         consola.url_imagen || consola.URL_IMAGEN || "";
 
@@ -71,8 +71,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Limpiar campos en caso de error
       document.getElementById("nombre").value = "";
       document.getElementById("anio").value = "";
-      document.getElementById("compania").value = "";
       document.getElementById("descripcion").value = "";
+      document.getElementById("compania").value = "";
       document.getElementById("url_imagen").value = "";
     }
   });
@@ -84,8 +84,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const id = consolaSelect.value;
     const nombre = document.getElementById("nombre").value.trim();
     const anio = parseInt(document.getElementById("anio").value.trim());
-    const compania = document.getElementById("compania").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
+    const compania = document.getElementById("compania").value.trim();
     const url_imagen = document.getElementById("url_imagen").value.trim();
 
     // Validaciones
@@ -114,8 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const requestData = {
         nombre,
         anio,
-        compania,
         descripcion,
+        compania,
         url_imagen,
       };
 
@@ -152,8 +152,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Vaciar los campos después de editar
       document.getElementById("nombre").value = "";
       document.getElementById("anio").value = "";
-      document.getElementById("compania").value = "";
       document.getElementById("descripcion").value = "";
+      document.getElementById("compania").value = "";
       document.getElementById("url_imagen").value = "";
       consolaSelect.value = "";
 
