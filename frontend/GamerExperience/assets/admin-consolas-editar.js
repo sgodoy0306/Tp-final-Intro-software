@@ -8,6 +8,43 @@ document.addEventListener("DOMContentLoaded", function () {
   // Solo ejecutar si estamos en la página de editar consolas
   if (!form || !mensaje || !consolaSelect) return;
 
+  // Función para configurar contadores de caracteres
+  function setupCharacterCounters() {
+    const contadores = [
+      { inputId: 'nombre', contadorId: 'contador-nombre', limite: 100 },
+      { inputId: 'descripcion', contadorId: 'contador-descripcion', limite: 300 },
+      { inputId: 'url_imagen', contadorId: 'contador-url', limite: 200 }
+    ];
+
+    contadores.forEach(({ inputId, contadorId, limite }) => {
+      const input = document.getElementById(inputId);
+      const contador = document.getElementById(contadorId);
+      
+      if (input && contador) {
+        function actualizarContador() {
+          const length = input.value.length;
+          contador.textContent = `${length}/${limite} caracteres`;
+          
+          // Cambiar color según la proximidad al límite
+          if (length > limite * 0.9) {
+            contador.className = "text-xs text-red-400 text-right";
+          } else if (length > limite * 0.7) {
+            contador.className = "text-xs text-yellow-400 text-right";
+          } else {
+            contador.className = "text-xs text-amber-300 text-right";
+          }
+        }
+
+        input.addEventListener('input', actualizarContador);
+        input.addEventListener('keyup', actualizarContador);
+        input.addEventListener('paste', () => setTimeout(actualizarContador, 0));
+        
+        // Inicializar contador
+        actualizarContador();
+      }
+    });
+  }
+
   // Cargar opciones de consolas al iniciar
   async function cargarConsolas() {
     try {
@@ -18,9 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       consolas.forEach((consola) => {
         const option = document.createElement("option");
         option.value = consola.id;
-        option.textContent = `${consola.nombre || consola.Nombre} (${
-          consola.compania || consola.Compania
-        })`;
+        option.textContent = `${consola.nombre} (${consola.compania})`;
         consolaSelect.appendChild(option);
       });
     } catch (err) {
@@ -48,17 +83,24 @@ document.addEventListener("DOMContentLoaded", function () {
       const res = await fetch(`${apiUrl}/${id}`);
       const consola = await res.json();
 
+      // Debug: mostrar la estructura de datos de la consola
+      console.log("Datos de la consola:", consola);
+      console.log("Campos disponibles:", Object.keys(consola));
+
       // Llenar los campos con los datos de la consola
       document.getElementById("nombre").value =
-        consola.nombre || consola.Nombre || "";
+        consola.nombre || "";
       document.getElementById("anio").value =
-        consola.anio || consola.Anio || "";
+        consola.lanzamiento || "";
       document.getElementById("descripcion").value =
-        consola.descripcion || consola.Descripcion || "";
+        consola.descripcion || "";
       document.getElementById("compania").value =
-        consola.compania || consola.Compania || "";
+        consola.compania || "";
       document.getElementById("url_imagen").value =
-        consola.url_imagen || consola.URL_IMAGEN || "";
+        consola.url_imagen || "";
+
+      // Actualizar contadores después de llenar los campos
+      setupCharacterCounters();
 
       mensaje.textContent = "";
       mensaje.classList.remove("text-red-500", "text-green-500");
@@ -74,6 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("descripcion").value = "";
       document.getElementById("compania").value = "";
       document.getElementById("url_imagen").value = "";
+      
+      // Actualizar contadores después de limpiar
+      setupCharacterCounters();
     }
   });
 

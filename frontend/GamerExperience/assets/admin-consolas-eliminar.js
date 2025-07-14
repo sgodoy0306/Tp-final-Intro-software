@@ -47,9 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
       consolas.forEach((consola) => {
         const option = document.createElement("option");
         option.value = consola.id;
-        option.textContent = `${consola.nombre || consola.Nombre} (${
-          consola.compania || consola.Compania
-        })`;
+        option.textContent = `${consola.nombre} (${consola.compania})`;
         consolaSelect.appendChild(option);
       });
 
@@ -74,13 +72,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Mostrar información
       document.getElementById("infoNombre").textContent =
-        consola.nombre || consola.Nombre || "";
+        consola.nombre || "";
       document.getElementById("infoAnio").textContent =
-        consola.anio || consola.Anio || "";
+        consola.lanzamiento || "";
       document.getElementById("infoCompania").textContent =
-        consola.compania || consola.Compania || "";
+        consola.compania || "";
       document.getElementById("infoDescripcion").textContent =
-        consola.descripcion || consola.Descripcion || "";
+        consola.descripcion || "";
 
       // Mostrar secciones
       consolaInfo.classList.remove("hidden");
