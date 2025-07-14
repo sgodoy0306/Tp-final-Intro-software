@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   )
     return;
 
-  const API_URL = "http://localhost:8000/api/consolas";
+  const API_URL = "https://tp-final-intro-software.onrender.com/api/consolas";
 
   // Función para cargar todas las consolas
   async function cargarConsolas() {
