@@ -41,7 +41,8 @@ async function getAllJuegos() {
         descripcion: row.descripcion,
         genero: row.genero,
         url_imagen: row.url_imagen,
-        desarrolladora: row.desarrolladora, // acá ya es el nombre, no el ID
+        desarrolladora: row.desarrolladora, // ID de la desarrolladora
+        desarrolladora_nombre: row.nombre_desarrolladora, // Nombre de la desarrolladora
         consolas: [],
       };
     }
@@ -72,7 +73,9 @@ async function getOneJuego(id) {
 
   const juego = result.rows[0];
 
-  juego.desarrolladora = juego.nombre_desarrolladora;
+  // Mantener el ID de la desarrolladora en el campo desarrolladora
+  // y agregar el nombre en un campo separado para referencia
+  juego.desarrolladora_nombre = juego.nombre_desarrolladora;
   delete juego.nombre_desarrolladora;
 
   // Seleccionar consolas compatibles:
@@ -150,30 +153,82 @@ async function updateJuego(
   url_imagen,
   consolas
 ) {
-  const result = await dbClient.query(
-    "UPDATE juegos SET nombre = $2, anio = $3, descripcion = $4, desarrolladora = $5, genero = $6, url_imagen = $7 WHERE id = $1 RETURNING *",
-    [id, nombre, anio, descripcion, desarrolladora, genero, url_imagen]
-  );
-  if (consolas) {
-    await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
-    if (Array.isArray(consolas)) {
-      for (const consolaId of consolas) {
+  try {
+    console.log("updateJuego - Parámetros recibidos:", {
+      id,
+      nombre,
+      anio,
+      descripcion,
+      desarrolladora,
+      genero,
+      url_imagen,
+      consolas
+    });
+
+    // Iniciar transacción
+    await dbClient.query('BEGIN');
+
+    // Actualizar el juego
+    const result = await dbClient.query(
+      "UPDATE juegos SET nombre = $2, anio = $3, descripcion = $4, desarrolladora = $5, genero = $6, url_imagen = $7 WHERE id = $1 RETURNING *",
+      [id, nombre, anio, descripcion, desarrolladora, genero, url_imagen]
+    );
+
+    console.log("updateJuego - Resultado de UPDATE:", result);
+
+    if (result.rowCount === 0) {
+      await dbClient.query('ROLLBACK');
+      return undefined;
+    }
+
+    // Manejar las consolas si se proporcionan
+    if (consolas) {
+      console.log("updateJuego - Actualizando relaciones de consolas");
+      
+      // Eliminar relaciones existentes
+      await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
+      
+      // Agregar nuevas relaciones
+      if (Array.isArray(consolas)) {
+        for (const consolaId of consolas) {
+          console.log("updateJuego - Insertando relación con consola ID:", consolaId);
+          await dbClient.query(
+            "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
+            [id, consolaId]
+          );
+        }
+      } else {
+        console.log("updateJuego - Insertando relación única con consola ID:", consolas);
         await dbClient.query(
           "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
-          [id, consolaId]
+          [id, consolas]
         );
       }
-    } else {
-      await dbClient.query(
-        "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
-        [id, consolas]
-      );
     }
+
+    // Confirmar transacción
+    await dbClient.query('COMMIT');
+    
+    console.log("updateJuego - Transacción completada exitosamente");
+    return result.rows[0];
+    
+  } catch (error) {
+    console.error("updateJuego - Error en la transacción:", {
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      detail: error.detail
+    });
+    
+    // Rollback en caso de error
+    try {
+      await dbClient.query('ROLLBACK');
+    } catch (rollbackError) {
+      console.error("updateJuego - Error en rollback:", rollbackError);
+    }
+    
+    throw error;
   }
-  if (result.rowCount === 0) {
-    return undefined;
-  }
-  return result.rows[0];
 }
 
 // Consolas
@@ -219,7 +274,7 @@ async function getOneConsola(id) {
 
 async function createConsola(nombre, anio, descripcion, compania, url_imagen) {
   const result = await dbClient.query(
-    "INSERT INTO consolas (nombre, anio, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    "INSERT INTO consolas (nombre, lanzamiento, descripcion, compania, url_imagen) VALUES ($1, $2, $3, $4, $5) RETURNING *",
     [nombre, anio, descripcion, compania, url_imagen]
   );
   return result.rows[0];
@@ -246,7 +301,7 @@ async function updateConsola(
   url_imagen
 ) {
   const result = await dbClient.query(
-    "UPDATE consolas SET nombre = $2, anio = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
+    "UPDATE consolas SET nombre = $2, lanzamiento = $3, descripcion = $4, compania = $5, url_imagen = $6 WHERE id = $1 RETURNING *",
     [id, nombre, anio, descripcion, compania, url_imagen]
   );
   if (result.rowCount === 0) {
