@@ -7,6 +7,46 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("📝 Formulario encontrado:", !!form);
   console.log("💬 Elemento de mensaje encontrado:", !!mensaje);
 
+  // Función para configurar contadores de caracteres
+  function setupCharacterCounters() {
+    const contadores = [
+      { inputId: 'dev-name', contadorId: 'contador-nombre', limite: 100 },
+      { inputId: 'dev-desc', contadorId: 'contador-descripcion', limite: 300 },
+      { inputId: 'dev-logo', contadorId: 'contador-url', limite: 200 }
+    ];
+
+    contadores.forEach(({ inputId, contadorId, limite }) => {
+      const input = document.getElementById(inputId);
+      const contador = document.getElementById(contadorId);
+      
+      if (input && contador) {
+        function actualizarContador() {
+          const length = input.value.length;
+          contador.textContent = `${length}/${limite} caracteres`;
+          
+          // Cambiar color según la proximidad al límite
+          if (length > limite * 0.9) {
+            contador.className = "text-xs text-red-400 text-right";
+          } else if (length > limite * 0.7) {
+            contador.className = "text-xs text-yellow-400 text-right";
+          } else {
+            contador.className = "text-xs text-amber-300 text-right";
+          }
+        }
+
+        input.addEventListener('input', actualizarContador);
+        input.addEventListener('keyup', actualizarContador);
+        input.addEventListener('paste', () => setTimeout(actualizarContador, 0));
+        
+        // Inicializar contador
+        actualizarContador();
+      }
+    });
+  }
+
+  // Inicializar contadores
+  setupCharacterCounters();
+
   // Verificar conexión con el backend
   checkBackendConnection();
 
@@ -135,6 +175,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
           showMessage("Desarrolladora guardada exitosamente!", "success");
           form.reset();
+          // Reinicializar contadores después de limpiar el formulario
+          setupCharacterCounters();
         } else {
           const errorData = await response.json();
           console.error("❌ Error del servidor:", errorData);

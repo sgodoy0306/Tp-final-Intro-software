@@ -10,6 +10,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
   console.log("🎮 Sistema de edición de desarrolladoras iniciado");
 
+  // Función para configurar contadores de caracteres
+  function setupCharacterCounters() {
+    const contadores = [
+      { inputId: 'nombre', contadorId: 'contador-nombre', limite: 100 },
+      { inputId: 'descripcion', contadorId: 'contador-descripcion', limite: 300 },
+      { inputId: 'url_imagen', contadorId: 'contador-url', limite: 200 }
+    ];
+
+    contadores.forEach(({ inputId, contadorId, limite }) => {
+      const input = document.getElementById(inputId);
+      const contador = document.getElementById(contadorId);
+      
+      if (input && contador) {
+        function actualizarContador() {
+          const length = input.value.length;
+          contador.textContent = `${length}/${limite} caracteres`;
+          
+          // Cambiar color según la proximidad al límite
+          if (length > limite * 0.9) {
+            contador.className = "text-xs text-red-400 text-right";
+          } else if (length > limite * 0.7) {
+            contador.className = "text-xs text-yellow-400 text-right";
+          } else {
+            contador.className = "text-xs text-amber-300 text-right";
+          }
+        }
+
+        input.addEventListener('input', actualizarContador);
+        input.addEventListener('keyup', actualizarContador);
+        input.addEventListener('paste', () => setTimeout(actualizarContador, 0));
+        
+        // Inicializar contador
+        actualizarContador();
+      }
+    });
+  }
+
   // Cargar opciones de desarrolladoras al iniciar
   async function cargarDesarrolladoras() {
     try {
@@ -70,6 +107,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("url_imagen").value =
         desarrolladora.url_imagen || desarrolladora.URL_IMAGEN || "";
 
+      // Actualizar contadores después de llenar los campos
+      setupCharacterCounters();
+
       mensaje.textContent = "";
       mensaje.classList.remove("text-red-500", "text-green-500");
 
@@ -86,6 +126,9 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("pais").value = "";
       document.getElementById("descripcion").value = "";
       document.getElementById("url_imagen").value = "";
+      
+      // Actualizar contadores después de limpiar
+      setupCharacterCounters();
     }
   });
 
