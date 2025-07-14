@@ -50,7 +50,8 @@
         <form action="" class="mt-18 mb-18 mx-auto max-w-xl bg-[#1a1919] p-8 rounded-lg shadow-lg flex flex-col gap-6 font-pixel text-amber-50">
         <div class="flex flex-col gap-2">
             <label for="nombre-juego" class="text-lg">Nombre del Juego</label>
-            <input type="text" id="nombre-juego" name="nombre-juego" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
+            <input type="text" id="nombre-juego" name="nombre-juego" maxlength="100" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
+            <div id="contador-nombre" class="text-xs text-amber-300 text-right">0/100 caracteres</div>
         </div>
         <div class="flex flex-col gap-2">
             <label for="anio-juego" class="text-lg">Año de lanzamiento</label>
@@ -58,7 +59,8 @@
         </div>
         <div class="flex flex-col gap-2">
             <label for="descripcion-juego" class="text-lg">Descripción</label>
-            <textarea id="descripcion-juego" name="descripcion-juego" rows="3" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required></textarea>
+            <textarea id="descripcion-juego" name="descripcion-juego" rows="3" maxlength="200" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required></textarea>
+            <div id="contador-descripcion" class="text-xs text-amber-300 text-right">0/200 caracteres</div>
         </div>
         <div class="flex flex-col gap-2">
             <label for="desarrolladora-juego" class="text-lg">Desarrolladora</label>
@@ -98,7 +100,8 @@
         </div>
         <div class="flex flex-col gap-2">
             <label for="portada-juego" class="text-lg">URL de la portada</label>
-            <input type="url" id="portada-juego" name="portada-juego" placeholder="https://ejemplo.com/portada.png" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
+            <input type="url" id="portada-juego" name="portada-juego" maxlength="200" placeholder="https://ejemplo.com/portada.png" class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
+            <div id="contador-url" class="text-xs text-amber-300 text-right">0/200 caracteres</div>
         </div>
         <button type="submit" class="mt-4 bg-amber-500 hover:bg-amber-600 text-lg text-[#131212] font-bold py-2 px-6 rounded transition">Guardar</button>
         <p id="mensaje" class="font-pixel text-center mt-4"></p>

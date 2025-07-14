@@ -24,10 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       juegosData = await response.json();
       console.log("Juegos cargados:", juegosData);
+      return juegosData;
     } catch (error) {
       console.error("Error al cargar juegos:", error);
       mensaje.textContent = `Error al cargar juegos: ${error.message}`;
       mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      throw error;
     }
   }
 
@@ -165,10 +167,37 @@ document.addEventListener("DOMContentLoaded", function () {
       // Para la desarrolladora, usar el campo desarrolladora (que es el ID)
       const desarrolladoraId = juegoCompleto.desarrolladora;
       if (desarrolladoraId) {
-        const desarrolladoraSelect = document.getElementById(
-          "desarrolladora-juego"
-        );
-        desarrolladoraSelect.value = desarrolladoraId;
+        // Función para intentar establecer la desarrolladora con reintentos
+        const establecerDesarrolladora = (intentos = 0) => {
+          const desarrolladoraSelect = document.getElementById(
+            "desarrolladora-juego"
+          );
+          
+          // Verificar si las opciones están cargadas (más de la opción por defecto)
+          if (desarrolladoraSelect.options.length <= 1 && intentos < 10) {
+            setTimeout(() => establecerDesarrolladora(intentos + 1), 100);
+            return;
+          }
+          
+          desarrolladoraSelect.value = desarrolladoraId;
+          
+          // Verificar si el valor se estableció correctamente
+          if (desarrolladoraSelect.value !== desarrolladoraId.toString()) {
+            console.warn("No se pudo establecer la desarrolladora:", desarrolladoraId);
+            console.log("Opciones disponibles:", Array.from(desarrolladoraSelect.options).map(opt => ({ value: opt.value, text: opt.text })));
+            
+            // Intentar buscar por valor string
+            desarrolladoraSelect.value = desarrolladoraId.toString();
+            
+            if (desarrolladoraSelect.value !== desarrolladoraId.toString()) {
+              console.error("La desarrolladora no existe en las opciones disponibles");
+            }
+          } else {
+            console.log("Desarrolladora establecida correctamente:", desarrolladoraId);
+          }
+        };
+        
+        establecerDesarrolladora();
       }
 
       // Para el género, usar el valor directamente
@@ -242,10 +271,14 @@ document.addEventListener("DOMContentLoaded", function () {
           item.nombre;
         select.appendChild(option);
       });
+      
+      console.log(`Select ${selectId} poblado con ${data.length} opciones`);
+      return data;
     } catch (error) {
       console.error(`Error al cargar opciones para ${selectId}:`, error);
       mensaje.textContent = `Error al cargar ${selectId}: ${error.message}`;
       mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      throw error;
     }
   }
 
@@ -290,10 +323,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       actualizarConsolasSeleccionadas();
+      console.log(`Consolas cargadas: ${consolas.length} opciones`);
+      return consolas;
     } catch (error) {
       console.error("Error al cargar consolas:", error);
       mensaje.textContent = `Error al cargar consolas: ${error.message}`;
       mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      throw error;
     }
   }
 
@@ -328,8 +364,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Función para actualizar juego
   async function actualizarJuego(datosJuego) {
     try {
-      console.log("Actualizando juego con ID:", juegoSeleccionado.id);
-      console.log("Datos a enviar:", datosJuego);
+      console.log("actualizarJuego - Enviando datos:", datosJuego);
+      console.log("actualizarJuego - ID del juego:", juegoSeleccionado.id);
 
       const response = await fetch(`${API}/juegos/${juegoSeleccionado.id}`, {
         method: "PUT",
@@ -339,15 +375,22 @@ document.addEventListener("DOMContentLoaded", function () {
         body: JSON.stringify(datosJuego),
       });
 
+      console.log("actualizarJuego - Respuesta del servidor:", response);
+      console.log("actualizarJuego - Status:", response.status);
+
       if (!response.ok) {
         let errorMessage = `Error ${response.status}: ${response.statusText}`;
         try {
           const errorData = await response.json();
+          console.log("actualizarJuego - Error JSON:", errorData);
           errorMessage = errorData.error || errorMessage;
         } catch (jsonError) {
           try {
-            errorMessage = (await response.text()) || errorMessage;
+            const errorText = await response.text();
+            console.log("actualizarJuego - Error texto:", errorText);
+            errorMessage = errorText || errorMessage;
           } catch (textError) {
+            console.log("actualizarJuego - Error al leer respuesta:", textError);
             // Usar mensaje por defecto
           }
         }
@@ -395,8 +438,20 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    if (datosJuego.nombre.length > 100) {
+      mensaje.textContent = "El nombre del juego no puede exceder 100 caracteres";
+      mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      return;
+    }
+
     if (!datosJuego.descripcion || datosJuego.descripcion.length < 10) {
       mensaje.textContent = "La descripción debe tener al menos 10 caracteres";
+      mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      return;
+    }
+
+    if (datosJuego.descripcion.length > 200) {
+      mensaje.textContent = "La descripción no puede exceder 200 caracteres";
       mensaje.className = "font-pixel text-center mt-4 text-red-500";
       return;
     }
@@ -421,6 +476,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!datosJuego.url_imagen || !datosJuego.url_imagen.startsWith("http")) {
       mensaje.textContent = "Por favor, ingresa una URL válida para la portada";
+      mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      return;
+    }
+
+    if (datosJuego.url_imagen.length > 200) {
+      mensaje.textContent = "La URL de la imagen no puede exceder 200 caracteres";
       mensaje.className = "font-pixel text-center mt-4 text-red-500";
       return;
     }
@@ -514,15 +575,69 @@ document.addEventListener("DOMContentLoaded", function () {
     mensaje.className = "font-pixel text-center mt-4";
   }
 
+  // Función para actualizar contadores de caracteres
+  function setupCharacterCounters() {
+    const contadores = [
+      { inputId: 'nombre-juego', contadorId: 'contador-nombre', limite: 100 },
+      { inputId: 'descripcion-juego', contadorId: 'contador-descripcion', limite: 200 },
+      { inputId: 'portada-juego', contadorId: 'contador-url', limite: 200 }
+    ];
+
+    contadores.forEach(({ inputId, contadorId, limite }) => {
+      const input = document.getElementById(inputId);
+      const contador = document.getElementById(contadorId);
+      
+      if (input && contador) {
+        function actualizarContador() {
+          const length = input.value.length;
+          contador.textContent = `${length}/${limite} caracteres`;
+          
+          // Cambiar color según la proximidad al límite
+          if (length > limite * 0.9) {
+            contador.className = "text-xs text-red-400 text-right";
+          } else if (length > limite * 0.7) {
+            contador.className = "text-xs text-yellow-400 text-right";
+          } else {
+            contador.className = "text-xs text-amber-300 text-right";
+          }
+        }
+
+        input.addEventListener('input', actualizarContador);
+        input.addEventListener('keyup', actualizarContador);
+        input.addEventListener('paste', () => setTimeout(actualizarContador, 0));
+        
+        // Inicializar contador
+        actualizarContador();
+      }
+    });
+  }
+
   // Limpiar estado inicial primero
   limpiarEstadoInicial();
 
-  // Cargar desarrolladoras y consolas
-  populateSelect(`${API}/desarrolladoras`, "desarrolladora-juego");
-  populateConsolas();
+  // Inicialización secuencial para asegurar que los datos estén disponibles
+  async function inicializarFormulario() {
+    try {
+      // Cargar desarrolladoras y consolas primero
+      await populateSelect(`${API}/desarrolladoras`, "desarrolladora-juego");
+      await populateConsolas();
+      
+      // Configurar contadores de caracteres
+      setupCharacterCounters();
+      
+      // Cargar juegos al final
+      await cargarJuegos();
+      
+      console.log("Formulario inicializado correctamente");
+    } catch (error) {
+      console.error("Error al inicializar formulario:", error);
+      mensaje.textContent = "Error al cargar los datos iniciales";
+      mensaje.className = "font-pixel text-center mt-4 text-red-500";
+    }
+  }
 
-  // Cargar juegos
-  cargarJuegos();
+  // Inicializar formulario
+  inicializarFormulario();
 
   // También limpiar cuando se muestra la página (incluyendo navegación hacia atrás/adelante)
   window.addEventListener("pageshow", function (event) {
