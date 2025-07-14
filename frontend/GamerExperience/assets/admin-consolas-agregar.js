@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/consolas", {
+      const response = await fetch("https://tp-final-intro-software.onrender.com/api/consolas", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
