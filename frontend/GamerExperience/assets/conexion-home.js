@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       a.innerHTML = `
                 <img src="${consola.url_imagen || consola.URL_IMAGEN}" alt="${
         consola.nombre || consola.Nombre
-      }" class="object-contain h-16 sm:h-20">
+      }" class="w-full h-full object-fill">
             `;
       platformsContainer.appendChild(a);
     });

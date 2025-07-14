@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
       url_imagen: formData.get("portada-juego").trim(),
     };
 
-    // Validaciones
+    // Validaciones básicas
     if (
       !datosJuego.nombre ||
       !datosJuego.desarrolladora ||
@@ -189,12 +189,38 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // Validación de límites de caracteres según la base de datos
+    if (datosJuego.nombre.length > 100) {
+      mensaje.textContent = "El nombre del juego no puede exceder 100 caracteres";
+      mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      return;
+    }
+
+    if (datosJuego.descripcion.length > 200) {
+      mensaje.textContent = "La descripción no puede exceder 200 caracteres";
+      mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      return;
+    }
+
+    if (datosJuego.genero && datosJuego.genero.length > 100) {
+      mensaje.textContent = "El género no puede exceder 100 caracteres";
+      mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      return;
+    }
+
+    if (datosJuego.url_imagen.length > 200) {
+      mensaje.textContent = "La URL de la imagen no puede exceder 200 caracteres";
+      mensaje.className = "font-pixel text-center mt-4 text-red-500";
+      return;
+    }
+
+    // Validación de año
     if (
       isNaN(datosJuego.anio) ||
       datosJuego.anio < 1950 ||
       datosJuego.anio > new Date().getFullYear()
     ) {
-      mensaje.textContent = "Por favor, ingresa un año válido";
+      mensaje.textContent = "Por favor, ingresa un año válido (1950 - año actual)";
       mensaje.className = "font-pixel text-center mt-4 text-red-500";
       return;
     }
@@ -230,7 +256,45 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Función para actualizar contadores de caracteres
+  function setupCharacterCounters() {
+    const contadores = [
+      { inputId: 'nombre-juego', contadorId: 'contador-nombre', limite: 100 },
+      { inputId: 'descripcion-juego', contadorId: 'contador-descripcion', limite: 200 },
+      { inputId: 'portada-juego', contadorId: 'contador-url', limite: 200 }
+    ];
+
+    contadores.forEach(({ inputId, contadorId, limite }) => {
+      const input = document.getElementById(inputId);
+      const contador = document.getElementById(contadorId);
+      
+      if (input && contador) {
+        function actualizarContador() {
+          const length = input.value.length;
+          contador.textContent = `${length}/${limite} caracteres`;
+          
+          // Cambiar color según la proximidad al límite
+          if (length > limite * 0.9) {
+            contador.className = "text-xs text-red-400 text-right";
+          } else if (length > limite * 0.7) {
+            contador.className = "text-xs text-yellow-400 text-right";
+          } else {
+            contador.className = "text-xs text-amber-300 text-right";
+          }
+        }
+
+        input.addEventListener('input', actualizarContador);
+        input.addEventListener('keyup', actualizarContador);
+        input.addEventListener('paste', () => setTimeout(actualizarContador, 0));
+        
+        // Inicializar contador
+        actualizarContador();
+      }
+    });
+  }
+
   // Cargar datos iniciales
   populateSelect(`${API}/desarrolladoras`, "desarrolladora-juego");
   populateConsolas();
+  setupCharacterCounters();
 });

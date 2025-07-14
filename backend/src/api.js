@@ -50,22 +50,77 @@ app.get("/api/juegos/:id", async (req, res) => {
 });
 
 app.post("/api/juegos", async (req, res) => {
-  if (!req.body.nombre) {
-    return res.status(400).json({ error: "Faltan datos para crear el juego" });
+  try {
+    // Validaciones básicas
+    if (!req.body.nombre) {
+      return res.status(400).json({ error: "El nombre del juego es obligatorio" });
+    }
+    
+    if (!req.body.descripcion) {
+      return res.status(400).json({ error: "La descripción del juego es obligatoria" });
+    }
+    
+    if (!req.body.desarrolladora) {
+      return res.status(400).json({ error: "La desarrolladora es obligatoria" });
+    }
+    
+    if (!req.body.genero) {
+      return res.status(400).json({ error: "El género es obligatorio" });
+    }
+    
+    // Validaciones de longitud según la base de datos
+    if (req.body.nombre.length > 100) {
+      return res.status(400).json({ error: "El nombre del juego no puede exceder 100 caracteres" });
+    }
+    
+    if (req.body.descripcion.length > 200) {
+      return res.status(400).json({ error: "La descripción no puede exceder 200 caracteres" });
+    }
+    
+    if (req.body.genero.length > 100) {
+      return res.status(400).json({ error: "El género no puede exceder 100 caracteres" });
+    }
+    
+    if (req.body.url_imagen && req.body.url_imagen.length > 200) {
+      return res.status(400).json({ error: "La URL de la imagen no puede exceder 200 caracteres" });
+    }
+
+    const nuevoJuego = await createJuego(
+      req.body.nombre,
+      req.body.anio,
+      req.body.descripcion,
+      req.body.desarrolladora,
+      req.body.genero,
+      req.body.url_imagen,
+      req.body.consolas
+    );
+    
+    if (!nuevoJuego) {
+      return res.status(500).json({ error: "Error interno al crear el juego" });
+    }
+    
+    res.json(nuevoJuego);
+  } catch (error) {
+    console.error("Error en POST /api/juegos:", error);
+    
+    // Manejo específico de errores de PostgreSQL
+    if (error.code) {
+      switch (error.code) {
+        case '23502': // NOT NULL violation
+          return res.status(400).json({ error: "Faltan campos obligatorios en la base de datos" });
+        case '23505': // Unique violation
+          return res.status(400).json({ error: "Ya existe un juego con ese nombre" });
+        case '23503': // Foreign key violation
+          return res.status(400).json({ error: "La desarrolladora seleccionada no existe" });
+        case '22001': // String data right truncation
+          return res.status(400).json({ error: "Uno de los campos excede el límite de caracteres permitido" });
+        default:
+          return res.status(500).json({ error: `Error de base de datos: ${error.message}` });
+      }
+    }
+    
+    return res.status(500).json({ error: "Error interno del servidor" });
   }
-  const nuevoJuego = await createJuego(
-    req.body.nombre,
-    req.body.anio,
-    req.body.descripcion,
-    req.body.desarrolladora,
-    req.body.genero,
-    req.body.url_imagen,
-    req.body.consolas
-  );
-  if (!nuevoJuego) {
-    return res.status(500).json({ error: "Error al crear el juego" });
-  }
-  res.json(nuevoJuego);
 });
 
 app.delete("/api/juegos/:id", async (req, res) => {
@@ -77,19 +132,94 @@ app.delete("/api/juegos/:id", async (req, res) => {
 });
 
 app.put("/api/juegos/:id", async (req, res) => {
-  const juego = await updateJuego(
-    req.params.id,
-    req.body.nombre,
-    req.body.descripcion,
-    req.body.desarrolladora,
-    req.body.genero,
-    req.body.url_imagen,
-    req.body.consola
-  );
-  if (!juego) {
-    return res.status(404).json({ error: "Juego no encontrado" });
+  try {
+    console.log("PUT /api/juegos/:id - Datos recibidos:", {
+      id: req.params.id,
+      body: req.body
+    });
+
+    // Validaciones básicas
+    if (!req.body.nombre) {
+      return res.status(400).json({ error: "El nombre del juego es obligatorio" });
+    }
+    
+    if (!req.body.descripcion) {
+      return res.status(400).json({ error: "La descripción del juego es obligatoria" });
+    }
+    
+    if (!req.body.desarrolladora) {
+      return res.status(400).json({ error: "La desarrolladora es obligatoria" });
+    }
+    
+    if (!req.body.genero) {
+      return res.status(400).json({ error: "El género es obligatorio" });
+    }
+    
+    // Validaciones de longitud según la base de datos
+    if (req.body.nombre.length > 100) {
+      return res.status(400).json({ error: "El nombre del juego no puede exceder 100 caracteres" });
+    }
+    
+    if (req.body.descripcion.length > 200) {
+      return res.status(400).json({ error: "La descripción no puede exceder 200 caracteres" });
+    }
+    
+    if (req.body.genero.length > 100) {
+      return res.status(400).json({ error: "El género no puede exceder 100 caracteres" });
+    }
+    
+    if (req.body.url_imagen && req.body.url_imagen.length > 200) {
+      return res.status(400).json({ error: "La URL de la imagen no puede exceder 200 caracteres" });
+    }
+
+    console.log("PUT /api/juegos/:id - Validaciones pasadas, llamando updateJuego");
+
+    const juego = await updateJuego(
+      req.params.id,
+      req.body.nombre,
+      req.body.anio,
+      req.body.descripcion,
+      req.body.desarrolladora,
+      req.body.genero,
+      req.body.url_imagen,
+      req.body.consolas
+    );
+    
+    console.log("PUT /api/juegos/:id - Resultado de updateJuego:", juego);
+    
+    if (!juego) {
+      return res.status(404).json({ error: "Juego no encontrado" });
+    }
+    
+    res.json(juego);
+  } catch (error) {
+    console.error("Error detallado en PUT /api/juegos:", {
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      detail: error.detail,
+      hint: error.hint,
+      where: error.where
+    });
+    
+    // Manejo específico de errores de PostgreSQL
+    if (error.code) {
+      switch (error.code) {
+        case '23502': // NOT NULL violation
+          return res.status(400).json({ error: "Faltan campos obligatorios en la base de datos" });
+        case '23505': // Unique violation
+          return res.status(400).json({ error: "Ya existe un juego con ese nombre" });
+        case '23503': // Foreign key violation
+          return res.status(400).json({ error: "La desarrolladora seleccionada no existe" });
+        case '22001': // String data right truncation
+          return res.status(400).json({ error: "Uno de los campos excede el límite de caracteres permitido" });
+        default:
+          return res.status(500).json({ error: `Error de base de datos: ${error.message}` });
+      }
+    }
+    
+    return res.status(500).json({ error: "Error interno del servidor: " + error.message });
   }
-  res.json(juego);
 });
 
 // Consolas
