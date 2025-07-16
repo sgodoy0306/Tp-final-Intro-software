@@ -4,9 +4,12 @@ const dbClient = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-// Juegos
+// -------------- Juegos --------------
 
 async function getAllJuegos() {
+  /* Muestra una lista de juegos con el nombre desarrolladora y las 
+  consolas asociadas (si las hay, como lista), ordenados por el ID del juego */
+
   const result = await dbClient.query(`
     SELECT
       juegos.id,
@@ -26,31 +29,34 @@ async function getAllJuegos() {
     ORDER BY juegos.id;
   `);
 
-  const juegosMap = {};
+  const obJuegos = {};
 
   result.rows.forEach((row) => {
-    if (!juegosMap[row.id]) {
-      juegosMap[row.id] = {
+    /*Agrupa los resultados de la consulta en un objeto obJuegos, 
+    creando un juego por ID y añadiendo un array con las consolas 
+    asociadas (si las hay).*/
+    if (!obJuegos[row.id]) {
+      obJuegos[row.id] = {
         id: row.id,
         nombre: row.nombre,
         anio: row.anio,
         descripcion: row.descripcion,
         genero: row.genero,
         url_imagen: row.url_imagen,
-        desarrolladora: row.desarrolladora, // ID de la desarrolladora
-        desarrolladora_nombre: row.nombre_desarrolladora, // Nombre de la desarrolladora
+        desarrolladora: row.desarrolladora, // ID desarrolladora
+        desarrolladora_nombre: row.nombre_desarrolladora, // Nombre desarrolladora
         consolas: [],
       };
     }
     if (row.consola_id) {
-      juegosMap[row.id].consolas.push({
+      obJuegos[row.id].consolas.push({
         id: row.consola_id,
         nombre: row.consola_nombre,
       });
     }
   });
 
-  return Object.values(juegosMap);
+  return Object.values(obJuegos);
 }
 
 async function getOneJuego(id) {
@@ -59,7 +65,7 @@ async function getOneJuego(id) {
        juegos.*, 
        desarrolladoras.nombre AS nombre_desarrolladora
      FROM juegos
-     JOIN desarrolladoras ON juegos.desarrolladora = desarrolladoras.id
+     JOIN desarrolladoras ON juegos.desarrolladora = desarrolladoras.id 
      WHERE juegos.id = $1
      LIMIT 1`,
     [id]
@@ -69,15 +75,11 @@ async function getOneJuego(id) {
 
   const juego = result.rows[0];
 
-  // Mantener el ID de la desarrolladora en el campo desarrolladora
-  // y agregar el nombre en un campo separado para referencia
+  // Reenombre de campos para mantener consistencia
   juego.desarrolladora_nombre = juego.nombre_desarrolladora;
   delete juego.nombre_desarrolladora;
 
-  // Seleccionar consolas compatibles:
-  // 1ero selecciona filas donde relacion.juego_id = id (i.e. compatibles)
-  // 2do, selecciona consolas.nombre donde relacion.consola_id = consolas.id
-  // devuelve un array de objetos con id y nombre de la consola
+  // Seleccionar consolas compatibles
   const consolasCompatibles = await dbClient.query(
     `SELECT
     consolas.nombre AS consola,
@@ -88,6 +90,7 @@ async function getOneJuego(id) {
     [id]
   );
 
+  // juego.consolas es un array de objetos con id y nombre de las consolas
   juego.consolas = consolasCompatibles.rows.map((row) => ({
     id: row.id,
     nombre: row.consola,
@@ -96,7 +99,6 @@ async function getOneJuego(id) {
   return juego;
 }
 
-// consolas puede ser un array de ids o un solo id
 async function createJuego(
   nombre,
   anio,
@@ -158,11 +160,11 @@ async function updateJuego(
       desarrolladora,
       genero,
       url_imagen,
-      consolas
+      consolas,
     });
 
-    // Iniciar transacción
-    await dbClient.query('BEGIN');
+    // Iniciar actualización
+    await dbClient.query("BEGIN");
 
     // Actualizar el juego
     const result = await dbClient.query(
@@ -173,28 +175,34 @@ async function updateJuego(
     console.log("updateJuego - Resultado de UPDATE:", result);
 
     if (result.rowCount === 0) {
-      await dbClient.query('ROLLBACK');
+      await dbClient.query("ROLLBACK");
       return undefined;
     }
 
     // Manejar las consolas si se proporcionan
     if (consolas) {
       console.log("updateJuego - Actualizando relaciones de consolas");
-      
+
       // Eliminar relaciones existentes
       await dbClient.query("DELETE FROM relacion WHERE juego_id = $1", [id]);
-      
+
       // Agregar nuevas relaciones
       if (Array.isArray(consolas)) {
         for (const consolaId of consolas) {
-          console.log("updateJuego - Insertando relación con consola ID:", consolaId);
+          console.log(
+            "updateJuego - Insertando relación con consola ID:",
+            consolaId
+          );
           await dbClient.query(
             "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
             [id, consolaId]
           );
         }
       } else {
-        console.log("updateJuego - Insertando relación única con consola ID:", consolas);
+        console.log(
+          "updateJuego - Insertando relación única con consola ID:",
+          consolas
+        );
         await dbClient.query(
           "INSERT INTO relacion (juego_id, consola_id) VALUES ($1, $2)",
           [id, consolas]
@@ -202,32 +210,31 @@ async function updateJuego(
       }
     }
 
-    // Confirmar transacción
-    await dbClient.query('COMMIT');
-    
+    // Confirmar actualización
+    await dbClient.query("COMMIT");
+
     console.log("updateJuego - Transacción completada exitosamente");
     return result.rows[0];
-    
   } catch (error) {
     console.error("updateJuego - Error en la transacción:", {
       message: error.message,
       stack: error.stack,
       code: error.code,
-      detail: error.detail
+      detail: error.detail,
     });
-    
+
     // Rollback en caso de error
     try {
-      await dbClient.query('ROLLBACK');
+      await dbClient.query("ROLLBACK");
     } catch (rollbackError) {
       console.error("updateJuego - Error en rollback:", rollbackError);
     }
-    
+
     throw error;
   }
 }
 
-// Consolas
+// -------------- Consolas --------------
 
 async function getAllConsolas() {
   const result = await dbClient.query("SELECT * FROM consolas");
@@ -246,10 +253,7 @@ async function getOneConsola(id) {
 
   const consola = result.rows[0];
 
-  // Seleccionar juegos compatibles:
-  // 1ero selecciona filas donde relacion.consola_id = id (i.e. compatibles)
-  // 2do, selecciona juegos.nombre donde relacion.juego_id = juegos.id
-  // devuelve un array de objetos con id y nombre de los juegos
+  // Seleccionar juegos compatibles
   const juegosCompatibles = await dbClient.query(
     `SELECT 
     juegos.nombre AS juego,
@@ -306,7 +310,7 @@ async function updateConsola(
   return result.rows[0];
 }
 
-// Desarrolladoras
+// -------------- Desarolladoras --------------
 
 async function getAllDesarrolladoras() {
   const result = await dbClient.query("SELECT * FROM desarrolladoras");

@@ -1,19 +1,23 @@
-# definiciones de comandos para simplificar el arranque y frenado de la db y la api
+# definiciones de comandos
 # ejecutar así "make <comando>"
 
-.PHONY: start-db stop-db start-api run-backend
+.PHONY: deploy run stop kill run-backend run-frontend
 
-deploy:
-	cd ./backend && sudo npm install
+deploy: # docker compose up -d lo hace automáticamente
+	(cd ./backend && sudo npm install)
+	(cd ./frontend && sudo npm install)
 
-start-db:
-	cd ./backend && docker compose up -d
+run:
+	docker compose up -d
 
-stop-db:
-	cd ./backend && docker compose down
+stop:
+	docker compose down
 
-start-api: # para frenar usar CTRL + C 
-	cd ./backend && npm run dev 
+kill: # elimina los volúmenes
+	docker compose down -v
 
-# arranca db y api a la vez 
-run-backend: start-db start-api
+run-backend:
+	docker compose up -d postgres backend
+
+run-frontend:
+	docker compose up -d tailwind frontend  
