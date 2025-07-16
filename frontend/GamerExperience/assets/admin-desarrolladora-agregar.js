@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function checkBackendConnection() {
     try {
       console.log("🔍 Verificando conexión con el backend...");
-      const response = await fetch("https://tp-final-intro-software.onrender.com/api/health");
+      const response = await fetch("http://localhost:8000/api/health");
 
       if (response.ok) {
         console.log("✅ Conexión establecida con el servidor");
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("🚀 Enviando datos al servidor...");
 
         const response = await fetch(
-          "https://tp-final-intro-software.onrender.com/api/desarrolladoras",
+          "http://localhost:8000/api/desarrolladoras",
           {
             method: "POST",
             headers: {

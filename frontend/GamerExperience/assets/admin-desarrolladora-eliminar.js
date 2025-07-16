@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   )
     return;
 
-  const API_URL = "https://tp-final-intro-software.onrender.com/api/desarrolladoras";
+  const API_URL = "http://localhost:8000/api/desarrolladoras";
 
   // Función para cargar todas las desarrolladoras
   async function cargarDesarrolladoras() {

@@ -1,7 +1,7 @@
 // ---------------------SECCION PARA EDITAR JUEGOS--------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
   // Variables globales
-  const API = "https://tp-final-intro-software.onrender.com/api";
+  const API = "http://localhost:8000/api";
   const form = document.getElementById("form-editar");
   const mensaje = document.getElementById("mensaje");
   const juegoSelector = document.getElementById("juego-selector");

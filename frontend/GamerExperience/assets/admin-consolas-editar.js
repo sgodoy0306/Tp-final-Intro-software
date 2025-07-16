@@ -1,6 +1,6 @@
 // ---------------------------- SECCION PARA EDITAR LAS CONSOLAS -----------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-  const apiUrl = "https://tp-final-intro-software.onrender.com/api/consolas";
+  const apiUrl = "http://localhost:8000/api/consolas";
   const form = document.getElementById("editConsolaForm");
   const mensaje = document.getElementById("mensaje");
   const consolaSelect = document.getElementById("consolaSelect");
