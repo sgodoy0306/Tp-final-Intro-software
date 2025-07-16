@@ -3,17 +3,17 @@ CREATE TABLE desarrolladoras (
   nombre VARCHAR(100) NOT NULL,
   fundacion INTEGER NOT NULL,
   pais VARCHAR(100) NOT NULL,
-  descripcion VARCHAR(200),
-  url_imagen VARCHAR(200)
+  descripcion VARCHAR(200) NOT NULL,
+  url_imagen VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE consolas (
   id SERIAL PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL, 
   lanzamiento INTEGER NOT NULL,
-  descripcion VARCHAR(200),
-  compania VARCHAR(100),
-  url_imagen VARCHAR(200)
+  descripcion VARCHAR(200) NOT NULL,
+  compania VARCHAR(100) NOT NULL,
+  url_imagen VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE juegos (
@@ -22,8 +22,8 @@ CREATE TABLE juegos (
   anio INTEGER NOT NULL,
   descripcion VARCHAR(200),
   desarrolladora INTEGER NOT NULL REFERENCES desarrolladoras(id),
-  genero VARCHAR(100),
-  url_imagen VARCHAR(200)
+  genero VARCHAR(100) NOT NULL,
+  url_imagen VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE relacion (
@@ -31,6 +31,8 @@ CREATE TABLE relacion (
   consola_id INTEGER REFERENCES consolas(id),
   PRIMARY KEY (juego_id, consola_id)
 );
+
+-------------------- Insertar datos de ejemplo -------------------- 
 
 INSERT INTO desarrolladoras (nombre, fundacion, pais, descripcion, url_imagen) VALUES
 ('Nintendo', 1889, 'Japón', 'Pionera en videojuegos', 'https://ejemplo.com/nintendo.png'),

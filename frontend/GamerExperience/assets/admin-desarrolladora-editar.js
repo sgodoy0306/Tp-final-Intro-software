@@ -1,6 +1,6 @@
 // ---------------------------- SECCION PARA EDITAR LAS DESARROLLADORAS -----------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
-  const apiUrl = "http://localhost:8000/api/desarrolladoras";
+  const apiUrl = "https://tp-final-intro-software.onrender.com/api/desarrolladoras";
   const form = document.getElementById("editDesarrolladoraForm");
   const mensaje = document.getElementById("mensaje");
   const desarrolladoraSelect = document.getElementById("desarrolladoraSelect");

@@ -1,7 +1,7 @@
 // ---------------------SECCION PARA AGREGAR NUEVOS JUEGOS--------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
   // Variables globales
-  const API = "http://localhost:8000/api";
+  const API = "https://tp-final-intro-software.onrender.com/api";
   const form = document.querySelector("form");
   const mensaje = document.getElementById("mensaje");
 
