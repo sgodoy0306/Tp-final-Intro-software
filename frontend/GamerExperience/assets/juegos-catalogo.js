@@ -66,7 +66,7 @@ async function inicializarPagina() {
 // Funciones de carga de datos
 async function cargarJuegos() {
   try {
-    const response = await fetch("https://tp-final-intro-software.onrender.com/api/consolas");
+    const response = await fetch("https://tp-final-intro-software.onrender.com/api/juegos");
     if (!response.ok) throw new Error("Error al obtener juegos");
     todosLosJuegos = await response.json();
     console.log("Juegos cargados:", todosLosJuegos.length);
@@ -90,7 +90,7 @@ async function cargarConsolas() {
 
 async function cargarDesarrolladoras() {
   try {
-    const response = await fetch("https://tp-final-intro-software.onrender.com/api/consolas");
+    const response = await fetch("https://tp-final-intro-software.onrender.com/api/desarrolladoras");
     if (!response.ok) throw new Error("Error al obtener desarrolladoras");
     todasLasDesarrolladoras = await response.json();
     console.log("Desarrolladoras cargadas:", todasLasDesarrolladoras.length);
