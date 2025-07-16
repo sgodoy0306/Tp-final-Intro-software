@@ -3,6 +3,9 @@
 
 .PHONY: start-db stop-db start-api run-backend
 
+deploy:
+	cd ./backend && sudo npm install
+
 start-db:
 	cd ./backend && docker compose up -d
 
