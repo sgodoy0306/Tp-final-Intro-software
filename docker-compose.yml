@@ -1,5 +1,6 @@
-# "make start-db" (i.e. "docker compose up -d") para arrancar la db 
-# "make stop-db" (i.e. "docker compose down") para frenar la db
+# "make run" === "docker compose up -d" 
+# "make stop" === "docker compose down" 
+# "make kill" === "docker compose down -v"
 
 services:
   postgres:
