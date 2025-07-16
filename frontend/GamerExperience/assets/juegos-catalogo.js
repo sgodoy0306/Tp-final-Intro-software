@@ -142,6 +142,16 @@ function poblarFiltros() {
     option.textContent = dev.nombre || dev.Nombre;
     desarrolladoraFilter.appendChild(option);
   });
+
+  // Poblar filtro de géneros dinámicamente desde los juegos
+  const generosUnicos = [...new Set(todosLosJuegos.map(juego => juego.genero || juego.Genero).filter(genero => genero))];
+  generoFilter.innerHTML = '<option value="">Todos los géneros</option>';
+  generosUnicos.sort().forEach((genero) => {
+    const option = document.createElement("option");
+    option.value = genero;
+    option.textContent = genero;
+    generoFilter.appendChild(option);
+  });
 }
 
 // Función principal de filtrado
