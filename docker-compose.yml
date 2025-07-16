@@ -22,7 +22,7 @@ services:
     working_dir: /app
     volumes:
       - ./backend:/app
-    command: bash -c "sudo npm install && npm run start"
+    command: bash -c "npm install && npm run start"
     ports:
       - "8000:8000"
     depends_on:
@@ -39,7 +39,7 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
-    command:  bash -c "sudo npm install tailwindcss && npx tailwindcss -i ./src/input.css -o ./assets/output.css --watch"
+    command:  bash -c "npm install tailwindcss && npx tailwindcss -i ./src/input.css -o ./assets/output.css --watch"
 
 
   frontend:
