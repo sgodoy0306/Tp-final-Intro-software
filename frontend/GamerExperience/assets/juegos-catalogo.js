@@ -66,7 +66,7 @@ async function inicializarPagina() {
 // Funciones de carga de datos
 async function cargarJuegos() {
   try {
-    const response = await fetch("https://tp-final-intro-software.onrender.com/api/juegos");
+    const response = await fetch("http://localhost:8000/api/juegos");
     if (!response.ok) throw new Error("Error al obtener juegos");
     todosLosJuegos = await response.json();
     console.log("Juegos cargados:", todosLosJuegos.length);
@@ -78,7 +78,7 @@ async function cargarJuegos() {
 
 async function cargarConsolas() {
   try {
-    const response = await fetch("https://tp-final-intro-software.onrender.com/api/consolas");
+    const response = await fetch("http://localhost:8000/api/consolas");
     if (!response.ok) throw new Error("Error al obtener consolas");
     todasLasConsolas = await response.json();
     console.log("Consolas cargadas:", todasLasConsolas.length);
@@ -90,7 +90,7 @@ async function cargarConsolas() {
 
 async function cargarDesarrolladoras() {
   try {
-    const response = await fetch("https://tp-final-intro-software.onrender.com/api/desarrolladoras");
+    const response = await fetch("http://localhost:8000/api/desarrolladoras");
     if (!response.ok) throw new Error("Error al obtener desarrolladoras");
     todasLasDesarrolladoras = await response.json();
     console.log("Desarrolladoras cargadas:", todasLasDesarrolladoras.length);
@@ -141,6 +141,16 @@ function poblarFiltros() {
     option.value = dev.id;
     option.textContent = dev.nombre || dev.Nombre;
     desarrolladoraFilter.appendChild(option);
+  });
+
+  // Poblar filtro de géneros dinámicamente desde los juegos
+  const generosUnicos = [...new Set(todosLosJuegos.map(juego => juego.genero || juego.Genero).filter(genero => genero))];
+  generoFilter.innerHTML = '<option value="">Todos los géneros</option>';
+  generosUnicos.sort().forEach((genero) => {
+    const option = document.createElement("option");
+    option.value = genero;
+    option.textContent = genero;
+    generoFilter.appendChild(option);
   });
 }
 
