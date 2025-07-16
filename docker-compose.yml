@@ -1,5 +1,6 @@
-# "make start-db" (i.e. "docker compose up -d") para arrancar la db 
-# "make stop-db" (i.e. "docker compose down") para frenar la db
+# "make run" === "docker compose up -d" 
+# "make stop" === "docker compose down" 
+# "make kill" === "docker compose down -v"
 
 services:
   postgres:
@@ -21,7 +22,7 @@ services:
     working_dir: /app
     volumes:
       - ./backend:/app
-    command: bash -c "npm install && npm run start"
+    command: bash -c "sudo npm install && npm run start"
     ports:
       - "8000:8000"
     depends_on:
@@ -38,7 +39,7 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
-    command:  bash -c "npm install tailwindcss && npx tailwindcss -i ./src/input.css -o ./assets/output.css --watch"
+    command:  bash -c "sudo npm install tailwindcss && npx tailwindcss -i ./src/input.css -o ./assets/output.css --watch"
 
 
   frontend:
