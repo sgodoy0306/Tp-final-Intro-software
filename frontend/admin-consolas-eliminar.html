@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Consolas</title>
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
+    <link rel="stylesheet" href="assets/output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#131212]">
+    <div id="" class="fixed inset-0 w-full h-full z-50 pointer-events-none object-cover">
+        <img src="./assets/images/bezel.png" alt="" class="absolute inset-0 w-full h-full object-cover lg:object-fill md:object-fill sm:object-cover  object-center pointer-events-none">
+    </div>  
+    <header class="flex bg-[#0e0d0d] items-center justify-between w-full h-32 pt-12 pl-20 2xl:pt-16 mt-auto 2xl:h-36">
+    <div class="2xl:relative 2xl:left-6 flex items-center">
+      <img src="./assets/images/user-logo.png" class="w-12 h-12 mr-4 select-none" draggable="false" />
+      <span class=" font-pixel text-amber-50 text-xl select-none">
+        ADMIN
+      </span>
+    </div>
+        <div class="flex absolute left-64">
+            <a href="admin-consolas.html" class="bg-green-600 hover:bg-green-800 text-gray-300 py-3 px-6 rounded-2xl font-pixel">
+                AGREGAR
+            </a>
+        </div>
+        <div class="flex absolute left-96">
+            <a href="admin-consolas-editar.html" class="bg-blue-600 hover:bg-blue-800 text-gray-300 py-3 px-6 rounded-2xl font-pixel">
+                EDITAR
+            </a>
+        </div>
+        <div class="pr-18">
+            <a href="index.html" class="text-amber-100 font-pixel font-bold text-xl 2xl:relative 2xl:-left-10">
+                Pagina Principal
+            </a>
+        </div>
+    </header>
+    <main class="flex flex-col items-center justify-center mt-16">
+        <h2 class="font-pixel text-3xl text-amber-50 mb-8">Eliminar Consola</h2>
+        <form id="deleteConsolaForm" class="bg-[#1a1919] p-8 rounded-xl shadow-lg  flex mb-16 flex-col gap-6">
+            <div>
+                <label for="consolaSelect" class="font-pixel text-amber-50">Selecciona Consola para Eliminar</label>
+                <select id="consolaSelect" name="consolaSelect" class="w-full mt-2 p-2 rounded bg-[#232222] text-amber-50 font-pixel" required>
+                    <option value="">-- Selecciona una consola --</option>
+                </select>
+            </div>
+            
+            <div id="consolaInfo" class="bg-[#2a2929] p-4 rounded-lg border border-gray-600 hidden">
+                <h3 class="font-pixel text-amber-50 text-lg mb-4">Información de la Consola</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="font-pixel text-amber-50 text-sm">Nombre:</label>
+                        <p id="infoNombre" class="font-pixel text-gray-300 mt-1"></p>
+                    </div>
+                    <div>
+                        <label class="font-pixel text-amber-50 text-sm">Año:</label>
+                        <p id="infoAnio" class="font-pixel text-gray-300 mt-1"></p>
+                    </div>
+                    <div>
+                        <label class="font-pixel text-amber-50 text-sm">Compañía:</label>
+                        <p id="infoCompania" class="font-pixel text-gray-300 mt-1"></p>
+                    </div>
+
+                </div>
+                <div class="mt-4">
+                    <label class="font-pixel text-amber-50 text-sm">Descripción:</label>
+                    <p id="infoDescripcion" class="font-pixel text-gray-300 mt-1"></p>
+                </div>
+            </div>
+
+            <div id="confirmacion" class="bg-red-900 p-4 rounded-lg border border-red-600 hidden">
+                <h3 class="font-pixel text-red-200 text-lg mb-2">⚠️ Confirmación de Eliminación</h3>
+                <p class="font-pixel text-red-200 text-sm mb-4">
+                    ¿Estás seguro de que quieres eliminar esta consola? Esta acción no se puede deshacer.
+                </p>
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" id="confirmarEliminacion" class="w-4 h-4">
+                    <label for="confirmarEliminacion" class="font-pixel text-red-200 text-sm">
+                        Sí, quiero eliminar esta consola permanentemente
+                    </label>
+                </div>
+            </div>
+
+            <p id="mensaje" class="font-pixel text-center mt-2"></p>
+            <button type="submit" id="eliminarBtn" class="bg-red-700 hover:bg-red-900 text-amber-50 font-pixel py-3 px-6 rounded-2xl mt-4 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Eliminar Consola
+            </button>
+        </form>
+    </main>
+    
+    <script src="./assets/admin-consolas-eliminar.js"></script>
+
+    <div id="static-effect" class="fixed inset-0 w-full h-full pointer-events-none" style="background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif') center center / cover repeat; opacity: 0.01; mix-blend-mode: lighten;"></div>
+    
+</body>
+</html>

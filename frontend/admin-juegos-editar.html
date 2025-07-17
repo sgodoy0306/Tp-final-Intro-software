@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Juegos</title>
+  <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
+    <link rel="stylesheet" href="assets/output.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap" rel="stylesheet" />
+</head>
+
+<body class="bg-[#131212]">
+    <div id="" class="fixed inset-0 w-full h-full z-50 pointer-events-none object-cover">
+        <img src="./assets/images/bezel.png" alt=""
+            class="absolute inset-0 w-full h-full object-cover lg:object-fill md:object-fill sm:object-cover object-center pointer-events-none" />
+    </div>
+  <header class="flex bg-[#0e0d0d] items-center justify-between w-full h-32 pt-12 pl-20 2xl:pt-16 mt-auto 2xl:h-36">
+    <div class="2xl:relative 2xl:left-6 flex items-center">
+      <img src="./assets/images/user-logo.png" class="w-12 h-12 mr-4 select-none" draggable="false" />
+      <span class=" font-pixel text-amber-50 text-xl select-none">
+        ADMIN
+      </span>
+    </div>
+        <div class="flex absolute left-64">
+            <a href="admin-juegos.html"
+                class="bg-green-600 hover:bg-green-800 text-gray-300 py-3 px-6 rounded-2xl font-pixel">
+                AGREGAR
+            </a>
+        </div>
+        <div class="flex absolute left-96">
+            <a href="admin-juegos-eliminar.html"
+                class="bg-red-600 hover:bg-red-800 text-gray-300 py-3 px-6 rounded-2xl font-pixel">
+                ELIMINAR
+            </a>
+        </div>
+    <div class="pr-18">
+      <a href="index.html" class="text-amber-100 font-pixel font-bold text-xl 2xl:relative 2xl:-left-10">
+        Pagina Principal
+      </a>
+    </div>
+    </header>
+    
+    <main>
+        <div class="text-center mt-12 mb-8">
+            <h1 class="font-pixel text-amber-50 text-3xl font-bold">EDITAR JUEGOS</h1>
+        </div>
+        
+        <div class="mt-18 mb-8 mx-auto max-w-xl bg-[#1a1919] p-8 rounded-lg shadow-lg font-pixel text-amber-50">
+        <h2 class="text-xl mb-4 text-center">Seleccionar Juego para Editar</h2>
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-2">
+                <label for="juego-selector" class="text-lg">Buscar Juego</label>
+                <input type="text" id="juego-selector" placeholder="Escribe el nombre del juego..." autocomplete="off"
+                    class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" />
+            </div>
+            <div id="juegos-lista" class="max-h-60 overflow-y-auto space-y-2 hidden">
+            </div>
+        </div>
+    </div>
+
+    <form action="" id="form-editar"
+        class="mb-18 mx-auto max-w-xl bg-[#1a1919] p-8 rounded-lg shadow-lg flex flex-col gap-6 font-pixel text-amber-50 opacity-50 pointer-events-none">
+        <div class="flex flex-col gap-2">
+            <label for="nombre-juego" class="text-lg">Nombre del Juego</label>
+            <input type="text" id="nombre-juego" name="nombre-juego" maxlength="100"
+                class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required />
+            <div id="contador-nombre" class="text-xs text-amber-300 text-right">0/100 caracteres</div>
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="anio-juego" class="text-lg">Año de lanzamiento</label>
+            <input type="number" id="anio-juego" name="anio-juego" min="1950" max="2025"
+                class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="descripcion-juego" class="text-lg">Descripción</label>
+            <textarea id="descripcion-juego" name="descripcion-juego" rows="3" maxlength="200"
+                class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none"
+                required></textarea>
+            <div id="contador-descripcion" class="text-xs text-amber-300 text-right">0/200 caracteres</div>
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="desarrolladora-juego" class="text-lg">Desarrolladora</label>
+            <select id="desarrolladora-juego" name="desarrolladora-juego"
+                class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
+                <option value="" disabled selected>
+                    Selecciona una desarrolladora
+                </option>
+            </select>
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="consola-juego" class="text-lg">Consolas</label>
+            <div class="bg-[#232222] border border-[#333] rounded px-4 py-2 max-h-40 overflow-y-auto">
+                <div class="text-amber-50 text-sm mb-2">
+                    Selecciona una o más consolas:
+                </div>
+                <div id="consolas-container" class="space-y-2">
+                </div>
+            </div>
+            <div id="consolas-seleccionadas" class="text-sm text-amber-300 mt-1">
+                Ninguna plataforma seleccionada
+            </div>
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="genero-juego" class="text-lg">Género</label>
+            <select id="genero-juego" name="genero-juego"
+                class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required>
+                <option value="" disabled selected>Selecciona un género</option>
+            <option value="accion">Acción</option>
+            <option value="aventura">Aventura</option>
+            <option value="rpg">RPG</option>
+            <option value="lucha">Lucha</option>
+            <option value="estrategia">Estrategia</option>
+            <option value="deportes">Deportes</option>
+            <option value="puzzle">Puzzle</option>
+            <option value="carreras">Carreras</option>
+            <option value="plataformas">Plataformas</option>
+            <option value="survival-horror">Survival Horror</option>
+            <option value="party">Party</option>
+            <option value="shooter">Shooter</option>
+            </select>
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="portada-juego" class="text-lg">URL de la portada</label>
+            <input type="url" id="portada-juego" name="portada-juego" maxlength="200" placeholder="https://ejemplo.com/portada.png"
+                class="bg-[#232222] border border-[#333] rounded px-4 py-2 text-amber-50 focus:outline-none" required />
+            <div id="contador-url" class="text-xs text-amber-300 text-right">0/200 caracteres</div>
+        </div>
+        <button type="submit" id="btn-guardar"
+            class="mt-4 bg-amber-500 hover:bg-amber-600 text-lg text-[#131212] font-bold py-2 px-6 rounded transition">
+            Actualizar Juego
+        </button>
+        <p id="mensaje" class="font-pixel text-center mt-4"></p>
+    </form>
+    </main>
+        <div id="static-effect" class="fixed inset-0 w-full h-full pointer-events-none" style="
+        background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif')
+          center center / cover repeat;
+        opacity: 0.01;
+        mix-blend-mode: lighten;
+      "></div>
+
+    <script src="assets/admin-juegos-editar.js"></script>
+
+
+</body>
+
+</html>

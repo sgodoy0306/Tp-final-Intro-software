@@ -1,0 +1,57 @@
+# "make run" === "docker compose up -d" 
+# "make stop" === "docker compose down" 
+# "make kill" === "docker compose down -v"
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: backend-postgres-1
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password 
+      POSTGRES_DB: db_back
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./backend/src/scripts/db.sql:/docker-entrypoint-initdb.d/db.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    image: node:20
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    command: bash -c "npm install && npm run start"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: db_back
+
+  tailwind:
+    image: node:20
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command:  bash -c "npm install tailwindcss && npx tailwindcss -i ./src/input.css -o ./assets/output.css --watch"
+
+
+  frontend:
+    image: node:20
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: npx serve . -l 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - tailwind
+
+volumes:
+  postgres_data:
