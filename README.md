@@ -45,8 +45,7 @@ En caso de necesitar usar sudo para npm install, hacer:
 cd ./backend && sudo npm install
 cd ./frontend && sudo npm install
 ``` 
+## Despliegue
+**Frontend**: https://tp-final-intro-software-despliegue.onrender.com/index.html
 
-
-
-
-
+**API**: https://tp-final-intro-software.onrender.com/api/health
