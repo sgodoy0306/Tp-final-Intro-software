@@ -52,9 +52,9 @@ INSERT INTO desarrolladoras (nombre, fundacion, pais, descripcion, url_imagen) V
 
 
 INSERT INTO consolas (nombre, lanzamiento, descripcion, compania, url_imagen) VALUES
-('GameCube', 2001, 'Consola de Nintendo de sexta generación.', 'Nintendo', 'https://static.wikia.nocookie.net/closinglogogroup/images/4/4c/Nintendo_Gamecube_logo.jpg/revision/latest?cb=20150614185628'),
-('PlayStation 2', 2000, 'Consola más vendida de la historia.', 'Sony', 'https://example.com/ps2.png'),
-('Xbox', 2001, 'Primera consola de Microsoft.', 'Microsoft', 'https://cdn.freebiesupply.com/logos/large/2x/microsoft-xbox-1-logo-png-transparent.png');
+('GameCube', 2001, 'Consola de Nintendo de sexta generación.', 'Nintendo', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRDXIG25QQp1_Si5a9fQPgrZ9b4b2bcqdqeg&s'),
+('PlayStation 2', 2000, 'Consola más vendida de la historia.', 'Sony', 'https://logos-world.net/wp-content/uploads/2023/03/PS2-Symbol.png'),
+('Xbox', 2001, 'Primera consola de Microsoft.', 'Microsoft', 'https://assets.turbologo.com/blog/es/2019/11/19132903/xbox-logo-cover.jpg');
 
 INSERT INTO juegos (nombre, anio, descripcion, desarrolladora, genero, url_imagen) VALUES
 ('Super Smash Bros. Melee', 2001, 'Juego de lucha crossover.', 1, 'lucha', 'https://ssb.wiki.gallery/images/5/55/SsbmBoxart.jpg'),
